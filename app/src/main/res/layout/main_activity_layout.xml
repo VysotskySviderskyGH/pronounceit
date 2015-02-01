@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.andexert.library.RippleView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ripple="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    ripple:rv_color="@color/s_blue">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/header_d_height"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_title"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/header_title_d_height"
+                android:gravity="center_horizontal"
+                android:paddingBottom="0dp"
+                android:paddingTop="@dimen/header_title_padding"
+                android:text="@string/title"
+                android:textColor="@color/s_blue"
+                android:textSize="@dimen/header_title_height" />
+
+            <TextView
+                android:id="@+id/txt_slogan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/slogan"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/header_slogan_height" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.vsgh.pronounceit.customviews.CustomButton
+                android:id="@+id/btn_game"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/button_margin_bottom"
+                android:layout_marginTop="@dimen/button_d_margin_top"
+                android:background="@drawable/button_shape"
+                android:paddingBottom="@dimen/button_padding_bottom"
+                android:text="game"
+                android:textColor="@color/s_blue"
+                android:textSize="@dimen/button_text_size" />
+
+
+            <com.vsgh.pronounceit.customviews.CustomButton
+                android:id="@+id/btn_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/button_margin_bottom"
+                android:background="@drawable/button_shape"
+                android:paddingBottom="@dimen/button_padding_bottom"
+                android:text="rating"
+                android:textColor="@color/s_red"
+                android:textSize="@dimen/button_text_size" />
+
+            <com.vsgh.pronounceit.customviews.CustomButton
+                android:id="@+id/btn_about"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/button_margin_bottom"
+                android:background="@drawable/button_shape"
+                android:paddingBottom="@dimen/button_padding_bottom"
+                android:text="about"
+                android:textColor="@color/s_yellow"
+                android:textSize="@dimen/button_text_size" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></LinearLayout>
+    </LinearLayout>
+</com.andexert.library.RippleView>

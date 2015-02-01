@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.vsgh.pronounceit">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".PronounceItApp"
         android:allowBackup="true"
@@ -20,6 +22,18 @@
         <meta-data
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="com.vsgh.pronounceit" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <activity
+            android:name=".activity.MainActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
     </application>
 

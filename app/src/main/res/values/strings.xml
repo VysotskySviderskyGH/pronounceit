@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Pronounce It!</string>
     <string name="facebook_app_id" translatable="false">1614098165472907</string>
+    <string name="title">Pronounce It!</string>
+    <string name="slogan">We make your English better</string>
 </resources>

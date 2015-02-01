@@ -1,6 +1,7 @@
 package com.vsgh.pronounceit.activity.base;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
 import com.facebook.AppEventsLogger;
@@ -13,6 +14,12 @@ public abstract class BaseVsghActivity extends ActionBarActivity {
     protected void startActivityWithoutParams(Class<?> activity) {
         Intent intent = new Intent(this, activity);
         startActivity(intent);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
     }
 
     @Override

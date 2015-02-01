@@ -7,6 +7,7 @@ import android.graphics.Typeface;
  */
 public final class FontContainer {
     public static Typeface billabong;
+    public static Typeface lanenar;
 
     private FontContainer() {
     }

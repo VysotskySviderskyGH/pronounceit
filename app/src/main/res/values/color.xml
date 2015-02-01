@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="s_blue">#2980b9</color>
+    <color name="s_red">#e74c3c</color>
+    <color name="s_yellow">#f1c40f</color>
+    <color name="s_sky">#71a2c9</color>
+    <color name="s_green">#27ae60</color>
+    <color name="s_asphalt">#34495e</color>
+</resources>
