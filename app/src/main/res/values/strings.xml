@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">PronounceIt</string>
+    <string name="app_name">Pronounce It!</string>
+    <string name="facebook_app_id" translatable="false">1614098165472907</string>
 </resources>
