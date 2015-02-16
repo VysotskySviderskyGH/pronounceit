@@ -20,8 +20,7 @@ public class StatisticsActivity extends BaseVsghActivity {
 
     }
 
-    protected void petya() {
-
-    }
-
+	public void vasy(){
+            int a = 2;
+        }
 }
