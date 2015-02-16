@@ -19,4 +19,9 @@ public class StatisticsActivity extends BaseVsghActivity {
     protected void configureViews() {
 
     }
+
+    protected void petya() {
+
+    }
+
 }
