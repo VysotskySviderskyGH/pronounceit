@@ -19,4 +19,6 @@ public class StatisticsActivity extends BaseVsghActivity {
     protected void configureViews() {
 
     }
+	
+	public void vasy(){}
 }
