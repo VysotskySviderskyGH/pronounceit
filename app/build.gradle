@@ -32,4 +32,6 @@ dependencies {
     compile 'com.github.traex.rippleeffect:library:1.2.3'
     compile 'com.cocosw:bottomsheet:0.6'
     compile 'com.github.asne:asne-core:0.3.3'
+    compile 'com.makeramen:roundedimageview:1.5.0'
+    compile 'com.github.markushi:circlebutton:1.1'
 }

@@ -1,5 +1,6 @@
 package com.vsgh.pronounceit.apihelpers.forvo;
 
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -58,6 +59,15 @@ public class ForvoApi {
             @Override
             protected void onPostExecute(String s) {
                 Log.d("FORVO", s);
+                MediaPlayer mediaPlayer = new MediaPlayer();
+                try {
+                    mediaPlayer.setDataSource(s);
+                    mediaPlayer.start();
+                    Log.d("FORVO",":)");
+                } catch (IOException e) {
+                    Log.d("FORVO",":( " + e.getMessage());
+                    e.printStackTrace();
+                }
             }
 
             @Override

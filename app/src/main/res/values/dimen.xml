@@ -16,4 +16,15 @@
     <dimen name="header_title_padding">30dp</dimen>
     <dimen name="header_slogan_height">20sp</dimen>
 
+    <!-- picbutton's dimens -->
+    <dimen name="pickbtn_edge">70dp</dimen>
+    <dimen name="pickbtn_margin">30dp</dimen>
+
+    <!-- loginbutton's dimens -->
+    <dimen name="lbtn_width">200dp</dimen>
+    <dimen name="lbtn_d_margintop">170dp</dimen>
+
+    <!-- statistic's dimens -->
+    <dimen name="layout_marginleft">5dp</dimen>
+
 </resources>

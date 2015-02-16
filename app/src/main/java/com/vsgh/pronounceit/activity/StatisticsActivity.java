@@ -14,4 +14,9 @@ public class StatisticsActivity extends BaseVsghActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.statistics_activity_layout);
     }
+
+    @Override
+    protected void configureViews() {
+
+    }
 }

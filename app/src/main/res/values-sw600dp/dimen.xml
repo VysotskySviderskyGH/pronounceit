@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- button's dimens -->
-    <dimen name="button_width">270dp</dimen>
-    <dimen name="button_height">50dp</dimen>
-    <dimen name="button_text_size">40sp</dimen>
-    <dimen name="button_stroke_size">1dp</dimen>
+    <dimen name="button_width">470dp</dimen>
+    <dimen name="button_height">70dp</dimen>
+    <dimen name="button_text_size">50sp</dimen>
+    <dimen name="button_stroke_size">2dp</dimen>
     <dimen name="button_margin_bottom">14dp</dimen>
     <dimen name="button_padding_bottom">4dp</dimen>
-    <dimen name="button_d_margin_top">70dp</dimen>
+    <dimen name="button_d_margin_top">180dp</dimen>
 
     <!-- layout's dimens -->
-    <dimen name="header_d_height">140dp</dimen>
-    <dimen name="header_title_d_height">100dp</dimen>
-    <dimen name="header_title_height">70sp</dimen>
-    <dimen name="header_title_padding">30dp</dimen>
-    <dimen name="header_slogan_height">20sp</dimen>
+    <dimen name="header_d_height">190dp</dimen>
+    <dimen name="header_title_d_height">160dp</dimen>
+    <dimen name="header_title_height">115sp</dimen>
+    <dimen name="header_title_padding">40dp</dimen>
+    <dimen name="header_slogan_height">30sp</dimen>
 
+    <!-- picbutton's dimens -->
+    <dimen name="pickbtn_edge">70dp</dimen>
 </resources>

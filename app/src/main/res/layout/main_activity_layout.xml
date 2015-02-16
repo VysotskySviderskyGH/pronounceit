@@ -51,7 +51,7 @@
                 android:layout_marginTop="@dimen/button_d_margin_top"
                 android:background="@drawable/button_shape"
                 android:paddingBottom="@dimen/button_padding_bottom"
-                android:text="game"
+                android:text="@string/start"
                 android:textColor="@color/s_blue"
                 android:textSize="@dimen/button_text_size" />
 
@@ -63,24 +63,45 @@
                 android:layout_marginBottom="@dimen/button_margin_bottom"
                 android:background="@drawable/button_shape"
                 android:paddingBottom="@dimen/button_padding_bottom"
-                android:text="rating"
+                android:text="@string/statistic"
                 android:textColor="@color/s_red"
                 android:textSize="@dimen/button_text_size" />
 
             <com.vsgh.pronounceit.customviews.CustomButton
-                android:id="@+id/btn_about"
+                android:id="@+id/btn_cards"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/button_margin_bottom"
                 android:background="@drawable/button_shape"
                 android:paddingBottom="@dimen/button_padding_bottom"
-                android:text="about"
+                android:text="@string/cards"
                 android:textColor="@color/s_yellow"
                 android:textSize="@dimen/button_text_size" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></LinearLayout>
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/pickbtn_edge"
+                android:layout_height="@dimen/pickbtn_edge"
+                android:layout_marginRight="@dimen/pickbtn_margin"
+                android:src="@drawable/ic_help" />
+
+            <ImageView
+                android:layout_width="@dimen/pickbtn_edge"
+                android:layout_height="@dimen/pickbtn_edge"
+                android:src="@drawable/ic_about" />
+
+            <ImageView
+                android:layout_width="@dimen/pickbtn_edge"
+                android:layout_height="@dimen/pickbtn_edge"
+                android:layout_marginLeft="@dimen/pickbtn_margin"
+                android:src="@drawable/ic_settings" />
+
+        </LinearLayout>
     </LinearLayout>
 </com.andexert.library.RippleView>

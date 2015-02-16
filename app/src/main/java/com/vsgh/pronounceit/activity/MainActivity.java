@@ -3,12 +3,11 @@ package com.vsgh.pronounceit.activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
-import com.androidquery.AQuery;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.vsgh.pronounceit.R;
 import com.vsgh.pronounceit.activity.base.BaseVsghActivity;
+import com.vsgh.pronounceit.apihelpers.forvo.ForvoApi;
 import com.vsgh.pronounceit.singletones.FontContainer;
 
 /**
@@ -16,17 +15,45 @@ import com.vsgh.pronounceit.singletones.FontContainer;
  */
 public class MainActivity extends BaseVsghActivity {
 
-    private final AQuery aQuery = new AQuery(this);
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity_layout);
-        configureViews();
     }
 
-    private void configureViews() {
-        aQuery.id(R.id.txt_title).typeface(FontContainer.billabong);
-        aQuery.id(R.id.txt_slogan).typeface(FontContainer.lanenar);
+    @Override
+    protected void configureViews() {
+        aq.id(R.id.btn_game).clicked(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityWithoutParams(GameActivity.class);
+            }
+        });
+        aq.id(R.id.txt_title).longClicked(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                new BottomSheet.Builder(MainActivity.this).title("title")
+                        .sheet(R.menu.test_menu)
+                        .grid()
+                        .listener(new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        }).show();
+                return true;
+            }
+        });
+        aq.id(R.id.btn_rating).clicked(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityWithoutParams(StatisticsActivity.class);
+            }
+        });
+        aq.id(R.id.btn_cards).clicked(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ForvoApi.downloadMp3Url("pronounce");
+            }
+        });
     }
 }

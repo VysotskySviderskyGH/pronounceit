@@ -6,4 +6,9 @@
     <color name="s_sky">#71a2c9</color>
     <color name="s_green">#27ae60</color>
     <color name="s_asphalt">#34495e</color>
+    <color name="s_background">#ecf0f1</color>
+    <color name="s_menu_text_color">#757575</color>
+    <color name="s_smoke_white">#ddd</color>
+    <color name="s_black_transparent">#80000000</color>
+    <color name="s_white">#ffffff</color>
 </resources>

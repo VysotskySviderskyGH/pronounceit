@@ -87,7 +87,9 @@
     <orderEntry type="library" exported="" name="facebook-android-sdk-3.19.1" level="project" />
     <orderEntry type="library" exported="" name="asne-vk-0.3.3" level="project" />
     <orderEntry type="library" exported="" name="universal-image-loader-1.7.1" level="project" />
+    <orderEntry type="library" exported="" name="circlebutton-1.1" level="project" />
     <orderEntry type="library" exported="" name="support-v4-21.0.3" level="project" />
+    <orderEntry type="library" exported="" name="roundedimageview-1.5.0" level="project" />
     <orderEntry type="library" exported="" name="bottomsheet-0.6" level="project" />
     <orderEntry type="library" exported="" name="android-query-0.25.9" level="project" />
     <orderEntry type="library" exported="" name="play-services-6.5.87" level="project" />
