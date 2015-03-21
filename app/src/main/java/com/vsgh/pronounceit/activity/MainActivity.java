@@ -52,7 +52,8 @@ public class MainActivity extends BaseVsghActivity {
         aq.id(R.id.btn_cards).clicked(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ForvoApi.downloadMp3Url("pronounce");
+                //ForvoApi.downloadMp3Url("pronounce");
+                startActivityWithoutParams(CardActivity.class);
             }
         });
     }
