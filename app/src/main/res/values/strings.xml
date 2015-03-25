@@ -12,5 +12,10 @@
     <string name="start">training</string>
     <string name="statistic">statistic</string>
     <string name="cards">cards</string>
+    <string name="please_say">Please say:</string>
+    <string name="gaps_error">We are sorry but you don\'t have installed GApps</string>
+    <string name="say_sentence">Say sentence</string>
+    <string name="skip_msg">skip</string>
+    <string name="listen_msg">listen</string>
 
 </resources>

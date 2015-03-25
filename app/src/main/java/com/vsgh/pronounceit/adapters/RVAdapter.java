@@ -10,14 +10,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.vsgh.pronounceit.R;
-import com.vsgh.pronounceit.activity.CardActivity;
-import com.vsgh.pronounceit.database.Sounds;
+import com.vsgh.pronounceit.persistence.Sounds;
 import com.vsgh.pronounceit.utils.SwipeDismissTouchListener;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Random;
 
 /**
  * Created by Eren on 18.02.2015.
@@ -37,7 +35,7 @@ public class RVAdapter extends  RecyclerView.Adapter<RVAdapter.ViewHolder>
             0xFF006000,
             0xFF000060
     };
-    private static Random randy = new Random();
+//    private static Random randy = new Random();
     // Hold the position of the expanded item
     private ArrayList<String> mDataset;
     private Context mContext;
@@ -90,10 +88,10 @@ public class RVAdapter extends  RecyclerView.Adapter<RVAdapter.ViewHolder>
 
     @Override
     public void onBindViewHolder (RVAdapter.ViewHolder holder, int position) {
-        int colorIndex = randy.nextInt(bgColors.length);
+//        int colorIndex = randy.nextInt(bgColors.length);
         holder.tvTitle.setText(mDataset.get(position));
-        holder.tvTitle.setBackgroundColor(bgColors[colorIndex]);
-        holder.tvSubTitle.setBackgroundColor(sbgColors[colorIndex]);
+//        holder.tvTitle.setBackgroundColor(bgColors[colorIndex]);
+//        holder.tvSubTitle.setBackgroundColor(sbgColors[colorIndex]);
 
     }
 

@@ -30,7 +30,7 @@ public class GatodataApi {
     public static final String NAME_PARAM = "audio_link";
     public static final String LESSON_ID_PARAM = "lesson_id";
 
-    public static void downloadSenteceList() {
+    public static void downloadSentenceList() {
         new AsyncTask<String, Void, List<Sentence>>() {
             @Override
             protected List<Sentence> doInBackground(String... params) {
@@ -80,7 +80,6 @@ public class GatodataApi {
                 SentenceContainer.sentences = sentenceList;
                 SentenceContainer.isInit = true;
                 Log.d("URL", sentenceList.size() + "");
-
             }
 
             @Override

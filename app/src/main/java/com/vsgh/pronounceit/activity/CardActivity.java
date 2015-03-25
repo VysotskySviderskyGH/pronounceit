@@ -22,11 +22,10 @@ import com.vsgh.pronounceit.R;
 import com.vsgh.pronounceit.adapters.RVAdapter;
 import com.vsgh.pronounceit.utils.TargetedSwipeRefreshLayout;
 import com.vsgh.pronounceit.activity.base.BaseVsghActivity;
-import com.vsgh.pronounceit.database.Sounds;
+import com.vsgh.pronounceit.persistence.Sounds;
 
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 

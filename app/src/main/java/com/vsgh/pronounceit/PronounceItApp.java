@@ -24,7 +24,7 @@ public class PronounceItApp extends SugarApp {
     }
 
     private void downloadSentences() {
-        GatodataApi.downloadSenteceList();
+        GatodataApi.downloadSentenceList();
     }
 
     private void initFonts() {

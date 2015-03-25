@@ -1,4 +1,4 @@
-package com.vsgh.pronounceit.database;
+package com.vsgh.pronounceit.persistence;
 
 import com.orm.SugarRecord;
 
