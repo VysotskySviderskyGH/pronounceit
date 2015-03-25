@@ -1,4 +1,4 @@
-package com.vsgh.pronounceit;
+package com.vsgh.pronounceit.utils;
 
 /**
  * Created by Slawa on 2/1/2015.
