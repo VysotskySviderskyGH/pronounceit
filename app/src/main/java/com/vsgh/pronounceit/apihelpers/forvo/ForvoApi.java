@@ -1,6 +1,5 @@
 package com.vsgh.pronounceit.apihelpers.forvo;
 
-import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -26,7 +25,7 @@ public class ForvoApi {
                 String mp3url = "";
                 try {
                     String json = downloadJSON(new URL(params[0]));
-                    mp3url = getUrl(json);
+                    mp3url = getDirectUrl(json);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -49,7 +48,7 @@ public class ForvoApi {
                 }
             }
 
-            private String getUrl(String jsonString) throws JSONException {
+            private String getDirectUrl(String jsonString) throws JSONException {
                 JSONObject jsonObject = new JSONObject(jsonString);
                 JSONArray array = jsonObject.optJSONArray("items");
                 JSONObject mainObject = array.optJSONObject(0);
@@ -57,17 +56,8 @@ public class ForvoApi {
             }
 
             @Override
-            protected void onPostExecute(String s) {
-                Log.d("FORVO", s);
-                MediaPlayer mediaPlayer = new MediaPlayer();
-                try {
-                    mediaPlayer.setDataSource(s);
-                    mediaPlayer.start();
-                    Log.d("FORVO",":)");
-                } catch (IOException e) {
-                    Log.d("FORVO",":( " + e.getMessage());
-                    e.printStackTrace();
-                }
+            protected void onPostExecute(String url) {
+                Log.d("URL", url);
             }
 
             @Override

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.andexert.library.RippleView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ripple="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ripple="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     ripple:rv_color="@color/s_blue">
@@ -40,10 +40,23 @@
         <LinearLayout
             android:id="@+id/layout_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:gravity="center"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Please say:"
+                android:paddingBottom="10dp"/>
+
+            <TextView
+                android:id="@+id/question_text"
+                android:textSize="30sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="AATA" />
 
         </LinearLayout>
 
@@ -59,10 +72,10 @@
                 android:id="@+id/btn_get_voice"
                 android:layout_width="220dp"
                 android:layout_height="220dp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_mic"
                 app:cb_color="@color/s_blue"
-                app:cb_pressedRingWidth="10dip"
-                android:scaleType="centerCrop"/>
+                app:cb_pressedRingWidth="10dip" />
 
         </LinearLayout>
     </LinearLayout>

@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.vsgh.pronounceit.R;
 import com.vsgh.pronounceit.activity.base.BaseVsghActivity;
+import com.vsgh.pronounceit.singletones.SentenceContainer;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -24,6 +25,9 @@ public class GameActivity extends BaseVsghActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_activity_layout);
+        if(SentenceContainer.isInit) {
+            aq.id(R.id.question_text).text(SentenceContainer.sentences.get(2).getSentence());
+        }
     }
 
     @Override
@@ -47,7 +51,7 @@ public class GameActivity extends BaseVsghActivity {
             startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
         } catch (ActivityNotFoundException a) {
             Toast.makeText(getApplicationContext(),
-                    "We are sorry",
+                    "We are sorry but you don't have installed GApps",
                     Toast.LENGTH_SHORT).show();
         }
     }
@@ -66,5 +70,4 @@ public class GameActivity extends BaseVsghActivity {
             }
         }
     }
-
 }

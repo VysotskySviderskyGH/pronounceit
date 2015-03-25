@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.orm.SugarApp;
+import com.vsgh.pronounceit.apihelpers.gatodata.GatodataApi;
 import com.vsgh.pronounceit.singletones.FontContainer;
 
 /**
@@ -19,6 +20,11 @@ public class PronounceItApp extends SugarApp {
         super.onCreate();
         initFonts();
         initImageDownloader();
+        downloadSentences();
+    }
+
+    private void downloadSentences() {
+        GatodataApi.downloadSenteceList();
     }
 
     private void initFonts() {

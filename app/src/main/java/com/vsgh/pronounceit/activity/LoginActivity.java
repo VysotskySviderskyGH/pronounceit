@@ -25,7 +25,7 @@ public class LoginActivity extends BaseVsghActivity {
                 finish();
             }
         });
-        aq.id(R.id.btn_login_facebook).clicked(new View.OnClickListener(){
+        aq.id(R.id.btn_login_facebook).clicked(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
