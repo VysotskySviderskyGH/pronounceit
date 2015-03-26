@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.vsgh.pronounceit.R;
-import com.vsgh.pronounceit.apihelpers.forvo.WordsLoader;
 import com.vsgh.pronounceit.persistence.Sounds;
 import com.vsgh.pronounceit.utils.SwipeDismissTouchListener;
 
@@ -41,7 +40,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>
         // Create a new view by inflating the row item xml.
         View v = LayoutInflater
                 .from(parent.getContext())
-                .inflate(R.layout.cell_example, parent, false);
+                .inflate(R.layout.card_layout, parent, false);
 
         final ViewHolder holder = new ViewHolder(v);
         // Sets the click adapter for the entire cell

@@ -27,9 +27,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="6dp"
-                android:text="Text in my QR Bar"
-                android:maxLines="2"
                 android:ellipsize="end"
+                android:maxLines="2"
+                android:text="Text in my QR Bar"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
 

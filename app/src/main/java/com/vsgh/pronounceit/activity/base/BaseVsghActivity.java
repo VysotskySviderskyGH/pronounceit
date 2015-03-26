@@ -24,7 +24,6 @@ public abstract class BaseVsghActivity extends ActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
     }
 
     protected abstract void configureViews();

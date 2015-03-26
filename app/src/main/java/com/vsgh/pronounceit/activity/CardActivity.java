@@ -60,7 +60,7 @@ public class CardActivity extends BaseVsghActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.card_activity);
+        setContentView(R.layout.card_activity_layout);
         context = this;
     }
 

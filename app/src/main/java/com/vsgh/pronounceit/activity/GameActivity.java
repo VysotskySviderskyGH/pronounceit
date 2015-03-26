@@ -15,6 +15,7 @@ import com.vsgh.pronounceit.activity.base.BaseVsghActivity;
 import com.vsgh.pronounceit.apihelpers.gatodata.GatodataApi;
 import com.vsgh.pronounceit.persistence.Sentence;
 import com.vsgh.pronounceit.singletones.FontContainer;
+import com.vsgh.pronounceit.singletones.SentencesContainer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,28 +30,23 @@ public class GameActivity extends BaseVsghActivity {
 
     private final int REQ_CODE_SPEECH_INPUT = 100;
     private MediaPlayer mediaPlayer;
-    private int currentSentenceId;
     private final Random random = new Random();
-    Sentence sentence;
+    private Sentence sentence;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_activity_layout);
         mediaPlayer = new MediaPlayer();
-        currentSentenceId = 2;
     }
 
     @Override
     protected void configureViews() {
-       // List<Sentence> sentences = Sentence.find(Sentence.class, "listen = ?", "false");
-        List<Sentence> sentences = Sentence.listAll(Sentence.class);
-        sentence = sentences.get(random.nextInt(sentences.size()-1));
-
+        // List<Sentence> sentences = Sentence.find(Sentence.class, "listen = ?", "false");
+        SentencesContainer.sentenceList = Sentence.listAll(Sentence.class);
+        sentence = SentencesContainer.sentenceList.get(random.nextInt(SentencesContainer.sentenceList.size() - 1));
         String question = sentence.getSentence();
-
-            aq.id(R.id.question_text).text(question);
-
+        aq.id(R.id.question_text).text(question);
         aq.id(R.id.question_text).typeface(FontContainer.lanenar);
         aq.id(R.id.btn_get_voice).longClicked(new View.OnLongClickListener() {
             @Override
