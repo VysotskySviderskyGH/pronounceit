@@ -1,12 +1,16 @@
 package com.vsgh.pronounceit;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.orm.SugarApp;
 import com.vsgh.pronounceit.apihelpers.gatodata.GatodataApi;
+import com.vsgh.pronounceit.apphelpers.SharedPrefsHelper;
 import com.vsgh.pronounceit.singletones.FontContainer;
+import com.vsgh.pronounceit.utils.Constants;
 
 /**
  * Created by Slawa on 2/1/2015.
@@ -14,13 +18,22 @@ import com.vsgh.pronounceit.singletones.FontContainer;
 public class PronounceItApp extends SugarApp {
     private static final String BILLABONG_FONT = "billabong_regular.ttf";
     private static final String LANE_NARROW_FONT = "lanenar.ttf";
+    private SharedPreferences settings;
 
     @Override
     public void onCreate() {
         super.onCreate();
         initFonts();
         initImageDownloader();
-        downloadSentences();
+        settings = getSharedPreferences(Constants.PREFS_NAME,
+                Context.MODE_PRIVATE);
+        boolean firstStart = settings.getBoolean(
+                Constants.FIRST_START, false);
+        if(!firstStart){
+            downloadSentences();
+            SharedPrefsHelper.writeBooleanToSP(settings,
+                    Constants.FIRST_START, true);
+        }
     }
 
     private void downloadSentences() {

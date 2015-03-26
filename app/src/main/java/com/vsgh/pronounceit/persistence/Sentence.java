@@ -1,26 +1,33 @@
-package com.vsgh.pronounceit.entity;
+package com.vsgh.pronounceit.persistence;
+
+import com.orm.SugarRecord;
 
 /**
  * Created by Slawa on 3/12/2015.
  */
-public class Sentence {
-    private int id;
+public class Sentence extends SugarRecord<Sentence> {
+    private Long id;
     private String sentence;
     private String link;
     private int lessonId;
+    private boolean listen;
 
-    public Sentence(int id, String sentence, String link, int lessonId) {
+    public Sentence(){
+    }
+
+    public Sentence(Long id, String sentence, String link, int lessonId, Boolean listen) {
         this.id = id;
         this.sentence = sentence;
         this.link = link;
         this.lessonId = lessonId;
+        this.listen = listen;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -47,4 +54,13 @@ public class Sentence {
     public void setLessonId(int lessonId) {
         this.lessonId = lessonId;
     }
+
+    public boolean getListen() {
+        return listen;
+    }
+
+    public void setListen(boolean listen) {
+        this.listen = listen;
+    }
+
 }

@@ -8,7 +8,6 @@ import com.orm.SugarRecord;
 public class Sounds extends SugarRecord<Sounds> {
     String name;
 
-
     public String getName() {
         return name;
     }
