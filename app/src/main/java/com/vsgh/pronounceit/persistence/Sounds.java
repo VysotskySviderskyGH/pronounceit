@@ -8,8 +8,7 @@ import com.orm.SugarRecord;
 public class Sounds extends SugarRecord<Sounds> {
     String name;
 
-
-    public Sounds() {
+    public Sounds(){
     }
 
     public Sounds(String name) {

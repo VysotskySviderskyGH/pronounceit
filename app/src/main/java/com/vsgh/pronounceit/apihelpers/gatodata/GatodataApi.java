@@ -1,10 +1,8 @@
 package com.vsgh.pronounceit.apihelpers.gatodata;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
-import com.vsgh.pronounceit.entity.Sentence;
-import com.vsgh.pronounceit.singletones.SentenceContainer;
+import com.vsgh.pronounceit.persistence.Sentence;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,9 +13,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Created by Slawa on 3/12/2015.
@@ -31,17 +26,18 @@ public class GatodataApi {
     public static final String LESSON_ID_PARAM = "lesson_id";
 
     public static void downloadSentenceList() {
-        new AsyncTask<String, Void, List<Sentence>>() {
+        new AsyncTask<Void, Void, Void>() {
+
             @Override
-            protected List<Sentence> doInBackground(String... params) {
-                List<Sentence> sentenceList = Collections.emptyList();
+            protected Void doInBackground(Void... params) {
                 try {
                     String json = downloadJSON(new URL(JSON_URL));
-                    sentenceList = getSentenceList(json);
+                    getSentenceList(json);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                return sentenceList;
+                return null;
             }
 
             private String downloadJSON(URL url) {
@@ -60,30 +56,29 @@ public class GatodataApi {
                 }
             }
 
-            private List<Sentence> getSentenceList(String jsonString) throws JSONException {
+            private void getSentenceList(String jsonString) throws JSONException {
                 JSONArray jsonArray = new JSONArray(jsonString);
-                List<Sentence> sentenceList = new ArrayList<>();
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject object = jsonArray.optJSONObject(i);
-                    int id = Integer.parseInt(object.optString(ID_PARAM));
+                    Long id = Long.parseLong(object.optString(ID_PARAM));
                     String text = object.optString(TEXT_PARAM);
                     String link = object.optString(NAME_PARAM);
                     int lessonId = Integer.parseInt(object.optString(LESSON_ID_PARAM));
-                    Sentence sentence = new Sentence(id, text, link, lessonId);
-                    sentenceList.add(sentence);
+                    Sentence sentence = new  Sentence(id, text, link, lessonId, false);
+                    sentence.save();
                 }
-                return sentenceList;
-            }
-
-            @Override
-            protected void onPostExecute(List<Sentence> sentenceList) {
-                SentenceContainer.sentences = sentenceList;
-                SentenceContainer.isInit = true;
             }
 
             @Override
             protected void onPreExecute() {
+                super.onPreExecute();
             }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+            }
+
         }.execute();
     }
 
