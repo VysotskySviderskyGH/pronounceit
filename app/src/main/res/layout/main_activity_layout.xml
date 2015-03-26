@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.vsgh.pronounceit.customviews.CustomRippleView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ripple="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     ripple:rv_color="@color/s_blue">
@@ -49,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/button_margin_bottom"
                 android:layout_marginTop="@dimen/button_d_margin_top"
-                android:background="@drawable/button_shape"
+                custom:cv_background="@drawable/menu_button_shape"
                 android:paddingBottom="@dimen/button_padding_bottom"
                 android:text="@string/start"
                 android:textColor="@color/s_blue"
@@ -61,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/button_margin_bottom"
-                android:background="@drawable/button_shape"
+                custom:cv_background="@drawable/menu_button_shape"
                 android:paddingBottom="@dimen/button_padding_bottom"
                 android:text="@string/statistic"
                 android:textColor="@color/s_red"
@@ -72,7 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/button_margin_bottom"
-                android:background="@drawable/button_shape"
+                custom:cv_background="@drawable/menu_button_shape"
                 android:paddingBottom="@dimen/button_padding_bottom"
                 android:text="@string/cards"
                 android:textColor="@color/s_yellow"
@@ -89,7 +90,8 @@
                 android:layout_width="@dimen/pickbtn_edge"
                 android:layout_height="@dimen/pickbtn_edge"
                 android:layout_marginRight="@dimen/pickbtn_margin"
-                android:src="@drawable/ic_help" />
+                android:src="@drawable/ic_help"
+                android:id="@+id/btn_help" />
 
             <ImageView
                 android:layout_width="@dimen/pickbtn_edge"

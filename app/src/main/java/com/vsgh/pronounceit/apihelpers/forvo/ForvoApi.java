@@ -57,7 +57,11 @@ public class ForvoApi {
 
             @Override
             protected void onPostExecute(String url) {
-                WordsLoader.downloadWord(context, url, word);
+                if (url != null) {
+                    WordsLoader.downloadWord(context, url, word);
+                } else {
+                    //TODO Handle situation when word is incorrect
+                }
             }
 
             @Override

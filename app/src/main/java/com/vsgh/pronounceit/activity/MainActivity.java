@@ -54,5 +54,11 @@ public class MainActivity extends BaseVsghActivity {
                 startActivityWithoutParams(CardActivity.class);
             }
         });
+        aq.id(R.id.btn_help).clicked(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityWithoutParams(HelpActivity.class);
+            }
+        });
     }
 }

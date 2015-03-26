@@ -2,6 +2,7 @@
 <com.vsgh.pronounceit.customviews.CustomRippleView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:ripple="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     ripple:rv_color="@color/s_blue">
@@ -32,7 +33,8 @@
                 android:text="@string/please_say" />
 
             <TextView
-                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:id="@+id/question_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -51,14 +53,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:text="@string/skip_msg" />
+                custom:cv_background="@drawable/custom_button_shape"
+                android:text="@string/skip_msg"
+                android:layout_margin="10dp"/>
 
             <com.vsgh.pronounceit.customviews.CustomButton
                 android:id="@+id/btn_listen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:text="@string/listen_msg" />
+                custom:cv_background="@drawable/custom_button_shape"
+                android:text="@string/listen_msg"
+                android:layout_margin="10dp"/>
         </LinearLayout>
 
             <at.markushi.ui.CircleButton
