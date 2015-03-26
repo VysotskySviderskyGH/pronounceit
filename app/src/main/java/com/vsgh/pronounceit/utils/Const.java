@@ -6,4 +6,5 @@ package com.vsgh.pronounceit.utils;
 public final class Const {
     private Const() {
     }
+    public static final String DESTINATION_URI = "Android/data/com.vsgh.pronounceit/files/";
 }

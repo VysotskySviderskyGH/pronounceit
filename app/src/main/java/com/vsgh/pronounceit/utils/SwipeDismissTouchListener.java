@@ -28,15 +28,15 @@ import android.view.ViewGroup;
 /**
  * A {@link android.view.View.OnTouchListener} that makes any {@link android.view.View} dismissable when the
  * user swipes (drags her finger) horizontally across the view.
- *
+ * <p/>
  * <p><em>For {@link android.widget.ListView} list items that don't manage their own touch events
  * (i.e. you're using
  * {@link android.widget.ListView#setOnItemClickListener(android.widget.AdapterView.OnItemClickListener)}
  * or an equivalent listener on {@link android.app.ListActivity} or
  * {@link android.app.ListFragment}, use {@link SwipeDismissListViewTouchListener} instead.</em></p>
- *
+ * <p/>
  * <p>Example usage:</p>
- *
+ * <p/>
  * <pre>
  * view.setOnTouchListener(new SwipeDismissTouchListener(
  *         view,
@@ -47,7 +47,7 @@ import android.view.ViewGroup;
  *             }
  *         }));
  * </pre>
- *
+ * <p/>
  * <p>This class Requires API level 12 or later due to use of {@link
  * android.view.ViewPropertyAnimator}.</p>
  *
@@ -75,31 +75,12 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
     private float mTranslationX;
 
     /**
-     * The callback interface used by {@link SwipeDismissTouchListener} to inform its client
-     * about a successful dismissal of the view for which it was created.
-     */
-    public interface DismissCallbacks {
-        /**
-         * Called to determine whether the view can be dismissed.
-         */
-        boolean canDismiss(Object token);
-
-        /**
-         * Called when the user has indicated they she would like to dismiss the view.
-         *
-         * @param view  The originating {@link android.view.View} to be dismissed.
-         * @param token The optional token passed to this object's constructor.
-         */
-        void onDismiss(View view, Object token);
-    }
-
-    /**
      * Constructs a new swipe-to-dismiss touch listener for the given view.
      *
-     * @param view     The view to make dismissable.
-     * @param token    An optional token/cookie object to be passed through to the callback.
+     * @param view      The view to make dismissable.
+     * @param token     An optional token/cookie object to be passed through to the callback.
      * @param callbacks The callback to trigger when the user has indicated that she would like to
-     *                 dismiss this view.
+     *                  dismiss this view.
      */
     public SwipeDismissTouchListener(View view, Object token, DismissCallbacks callbacks) {
         ViewConfiguration vc = ViewConfiguration.get(view.getContext());
@@ -272,5 +253,24 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
         });
 
         animator.start();
+    }
+
+    /**
+     * The callback interface used by {@link SwipeDismissTouchListener} to inform its client
+     * about a successful dismissal of the view for which it was created.
+     */
+    public interface DismissCallbacks {
+        /**
+         * Called to determine whether the view can be dismissed.
+         */
+        boolean canDismiss(Object token);
+
+        /**
+         * Called when the user has indicated they she would like to dismiss the view.
+         *
+         * @param view  The originating {@link android.view.View} to be dismissed.
+         * @param token The optional token passed to this object's constructor.
+         */
+        void onDismiss(View view, Object token);
     }
 }

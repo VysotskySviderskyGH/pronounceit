@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.vsgh.pronounceit.R;
+import com.vsgh.pronounceit.apihelpers.forvo.WordsLoader;
 import com.vsgh.pronounceit.persistence.Sounds;
 import com.vsgh.pronounceit.utils.SwipeDismissTouchListener;
 
@@ -20,28 +21,16 @@ import java.util.Locale;
 /**
  * Created by Eren on 18.02.2015.
  */
-public class RVAdapter extends  RecyclerView.Adapter<RVAdapter.ViewHolder>
+public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>
         implements View.OnClickListener, TextToSpeech.OnInitListener {
 
-    private static final int[] bgColors = {
-            0xAA000000,
-            0xFF800000,
-            0xFF008000,
-            0xFF000080
-    };
-    private static final int[] sbgColors = {
-            0xFF000000,
-            0xFF600000,
-            0xFF006000,
-            0xFF000060
-    };
-//    private static Random randy = new Random();
+    //    private static Random randy = new Random();
     // Hold the position of the expanded item
     private ArrayList<String> mDataset;
     private Context mContext;
     private TextToSpeech mTTS;
 
-    public RVAdapter (Context context, ArrayList<String> myDataset, TextToSpeech mTTS) {
+    public RVAdapter(Context context, ArrayList<String> myDataset, TextToSpeech mTTS) {
         this.mDataset = myDataset;
         this.mContext = context;
         this.mTTS = new TextToSpeech(mContext, this);
@@ -71,9 +60,9 @@ public class RVAdapter extends  RecyclerView.Adapter<RVAdapter.ViewHolder>
                     @Override
                     public void onDismiss(View view, Object token) {
                         parent.removeView(holder.itemView);
-                        List<Sounds> sounds =  Sounds.listAll(Sounds.class);
-                        for (Sounds temp :sounds){
-                            if(temp.getName().equals(mDataset.get(holder.getLayoutPosition()))){
+                        List<Sounds> sounds = Sounds.listAll(Sounds.class);
+                        for (Sounds temp : sounds) {
+                            if (temp.getName().equals(mDataset.get(holder.getLayoutPosition()))) {
                                 Sounds sounds1 = Sounds.findById(Sounds.class, temp.getId());
                                 sounds1.delete();
                                 mDataset.remove(temp.getName());
@@ -87,7 +76,7 @@ public class RVAdapter extends  RecyclerView.Adapter<RVAdapter.ViewHolder>
     }
 
     @Override
-    public void onBindViewHolder (RVAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(RVAdapter.ViewHolder holder, int position) {
 //        int colorIndex = randy.nextInt(bgColors.length);
         holder.tvTitle.setText(mDataset.get(position));
 //        holder.tvTitle.setBackgroundColor(bgColors[colorIndex]);

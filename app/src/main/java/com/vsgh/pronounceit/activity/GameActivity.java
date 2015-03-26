@@ -39,9 +39,9 @@ public class GameActivity extends BaseVsghActivity {
 
     @Override
     protected void configureViews() {
-        String question = SentenceContainer.sentences
-                .get(currentSentenceId).getSentence();
         if (SentenceContainer.isInit) {
+            String question = SentenceContainer.sentences
+                    .get(currentSentenceId).getSentence();
             aq.id(R.id.question_text).text(question);
         }
         aq.id(R.id.question_text).typeface(FontContainer.lanenar);

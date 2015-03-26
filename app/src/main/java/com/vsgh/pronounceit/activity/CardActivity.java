@@ -17,13 +17,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.vsgh.pronounceit.customviews.QRBarDecoration;
 import com.vsgh.pronounceit.R;
-import com.vsgh.pronounceit.adapters.RVAdapter;
-import com.vsgh.pronounceit.utils.TargetedSwipeRefreshLayout;
 import com.vsgh.pronounceit.activity.base.BaseVsghActivity;
+import com.vsgh.pronounceit.adapters.RVAdapter;
+import com.vsgh.pronounceit.customviews.QRBarDecoration;
 import com.vsgh.pronounceit.persistence.Sounds;
-
+import com.vsgh.pronounceit.utils.TargetedSwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,26 +33,23 @@ import java.util.Random;
  */
 public class CardActivity extends BaseVsghActivity {
 
-    public TargetedSwipeRefreshLayout swiper;
-    private RecyclerView mRecycler;
-    private StaggeredGridLayoutManager mSGLM;
-    private LinearLayout qrBar;
-    private TextView tvQRBarTitle;
-
-    private RVAdapter mAdapter;
-    private ArrayList<String> myDataset;
-    private Animation inAnim;
-    private Animation outAnim;
-    Context context;
-    private TextToSpeech mTTS;
-
     // An array of meaningless titles
     private static final String[] someTitles = {
             "Test 1",
             "Test 2",
             "Test 3",
     };
-
+    public TargetedSwipeRefreshLayout swiper;
+    Context context;
+    private RecyclerView mRecycler;
+    private StaggeredGridLayoutManager mSGLM;
+    private LinearLayout qrBar;
+    private TextView tvQRBarTitle;
+    private RVAdapter mAdapter;
+    private ArrayList<String> myDataset;
+    private Animation inAnim;
+    private Animation outAnim;
+    private TextToSpeech mTTS;
     // For randomizing titles across our dataset
     private Random randy = new Random();
 
@@ -103,8 +99,8 @@ public class CardActivity extends BaseVsghActivity {
                 alertDialog.setPositiveButton("Add",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                if(input.getText().toString().length() > 2){
-                                    addItemAtPosition(0,input.getText().toString());
+                                if (input.getText().toString().length() > 2) {
+                                    addItemAtPosition(0, input.getText().toString());
                                 }
                             }
                         });
@@ -139,7 +135,7 @@ public class CardActivity extends BaseVsghActivity {
                     @Override
                     public void run() {
                         if (myDataset != null && mAdapter != null) {
-                           // Collections.shuffle(myDataset);
+                            // Collections.shuffle(myDataset);
                             mAdapter.notifyDataSetChanged();
                         }
                         swiper.setRefreshing(false);
@@ -160,10 +156,10 @@ public class CardActivity extends BaseVsghActivity {
         myDataset = new ArrayList<String>();
         // Load up the dataset with random titles
         List<Sounds> sounds = Sounds.listAll(Sounds.class);
-        for(Sounds sound: sounds){
+        for (Sounds sound : sounds) {
             myDataset.add(sound.getName());
         }
-        mAdapter = new RVAdapter(this, myDataset,mTTS);
+        mAdapter = new RVAdapter(this, myDataset, mTTS);
         // Set the RecyclerView's Adapter
         mRecycler.setAdapter(mAdapter);
 
@@ -171,6 +167,7 @@ public class CardActivity extends BaseVsghActivity {
         // for the TargetedSwipeRefreshAdapter.
         swiper.setTargetScrollableView(mRecycler);
     }
+
     /**
      * Adds an item at postion, and scrolls to that position.
      *
@@ -181,7 +178,7 @@ public class CardActivity extends BaseVsghActivity {
         myDataset.add(position, item);
         mAdapter.notifyItemInserted(position);
         mSGLM.scrollToPosition(position);
-         Sounds sounds = new Sounds(item);
+        Sounds sounds = new Sounds(item);
         sounds.save();
     }
 }

@@ -79,7 +79,6 @@ public class GatodataApi {
             protected void onPostExecute(List<Sentence> sentenceList) {
                 SentenceContainer.sentences = sentenceList;
                 SentenceContainer.isInit = true;
-                Log.d("URL", sentenceList.size() + "");
             }
 
             @Override

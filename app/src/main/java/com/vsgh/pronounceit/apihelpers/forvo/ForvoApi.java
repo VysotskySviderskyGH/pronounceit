@@ -1,7 +1,7 @@
 package com.vsgh.pronounceit.apihelpers.forvo;
 
+import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,7 +17,7 @@ import java.net.URL;
  * Created by Slawa on 2/8/2015.
  */
 public class ForvoApi {
-    public static void downloadMp3Url(String word) {
+    public static void downloadMp3Url(final Context context, final String word) {
         final String url = ForvoParams.getUrl(word);
         new AsyncTask<String, Void, String>() {
             @Override
@@ -57,7 +57,7 @@ public class ForvoApi {
 
             @Override
             protected void onPostExecute(String url) {
-                Log.d("URL", url);
+                WordsLoader.downloadWord(context, url, word);
             }
 
             @Override

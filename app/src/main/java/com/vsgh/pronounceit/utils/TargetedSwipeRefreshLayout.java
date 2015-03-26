@@ -24,6 +24,7 @@ public class TargetedSwipeRefreshLayout extends SwipeRefreshLayout {
 
     /**
      * Specify the target scrollable view
+     *
      * @param view
      */
     public void setTargetScrollableView(View view) {
@@ -33,7 +34,7 @@ public class TargetedSwipeRefreshLayout extends SwipeRefreshLayout {
     @Override
     public boolean canChildScrollUp() {
 
-        if(myScrollableView == null) return false;
+        if (myScrollableView == null) return false;
 
         if (android.os.Build.VERSION.SDK_INT < 14) {
             if (myScrollableView instanceof AbsListView) {

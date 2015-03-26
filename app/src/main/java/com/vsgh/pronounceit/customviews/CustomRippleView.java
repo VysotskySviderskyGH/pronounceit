@@ -26,6 +26,12 @@ import com.vsgh.pronounceit.R;
  */
 public class CustomRippleView extends RelativeLayout {
 
+    private final Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            invalidate();
+        }
+    };
     private int WIDTH;
     private int HEIGHT;
     private int FRAME_RATE = 10;
@@ -50,12 +56,6 @@ public class CustomRippleView extends RelativeLayout {
     private int rippleColor;
     private int ripplePadding;
     private GestureDetector gestureDetector;
-    private final Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            invalidate();
-        }
-    };
 
     public CustomRippleView(Context context) {
         super(context);
@@ -260,11 +260,11 @@ public class CustomRippleView extends RelativeLayout {
         return output;
     }
 
-    public void setRippleColor(int rippleColor) {
-        this.rippleColor = rippleColor;
-    }
-
     public int getRippleColor() {
         return rippleColor;
+    }
+
+    public void setRippleColor(int rippleColor) {
+        this.rippleColor = rippleColor;
     }
 }
