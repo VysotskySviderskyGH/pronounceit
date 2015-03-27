@@ -22,5 +22,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="got_it">Got it!</string>
+    <string name="description">In this trainer you have good opportunity to improve your English. There is game mode where user will be offered to repeat word or sentence. You may listen it so you can memorize these pronunciations and will repeat it in future in the real life. Yet another mode is cards mode where you can add unknown word and listen correct pronunciation. This service uses special site Forvo.com with all words in the world. PronounceIt is sorting words by rating so you will have best pronounced word. And there is statistic where you can see your progress and share it with your friends from social networks.</string>
+    <string name="error_with_input">Sentence is skipped. Do not cancel input</string>
+    <string name="said_msg">You said: </string>
 
 </resources>

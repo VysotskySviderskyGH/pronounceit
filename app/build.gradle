@@ -36,4 +36,7 @@ dependencies {
     compile 'com.github.asne:asne-core:0.3.3'
     compile 'com.makeramen:roundedimageview:1.5.0'
     compile 'com.github.markushi:circlebutton:1.1'
+    compile('de.keyboardsurfer.android.widget:crouton:1.8.5@aar') {
+        exclude group: 'com.google.android', module: 'support-v4'
+    }
 }
