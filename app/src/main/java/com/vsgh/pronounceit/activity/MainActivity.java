@@ -27,20 +27,6 @@ public class MainActivity extends BaseVsghActivity {
                 startActivityWithoutParams(GameActivity.class);
             }
         });
-        aq.id(R.id.txt_title).longClicked(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                new BottomSheet.Builder(MainActivity.this).title("title")
-                        .sheet(R.menu.test_menu)
-                        .grid()
-                        .listener(new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        }).show();
-                return true;
-            }
-        });
         aq.id(R.id.btn_rating).clicked(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

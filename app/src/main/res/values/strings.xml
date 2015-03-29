@@ -34,5 +34,9 @@ We make your English better
     <string name="error_with_input">Sentence is skipped. Do not cancel input</string>
     <string name="said_msg">You said: </string>
     <string name="interner_error">Please connect to the internet</string>
+    <string name="login_vk">Login via VK</string>
+    <string name="login_gp">Login via GooglePlus</string>
+    <string name="login_fb">Login via Facebook</string>
+    <string name="title_activity_login_buttons">LoginButtonsActivity</string>
 
 </resources>
