@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="8dp"
-                android:background="#3b5998"
+                android:background="@color/s_fb_color"
                 android:text="@string/login_fb"
                 android:textColor="@color/s_white" />
 
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="8dp"
-                android:background="#D34836"
+                android:background="@color/s_gp_color"
                 android:text="@string/login_gp"
                 android:textColor="@color/s_white" />
 
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="8dp"
-                android:background="#6280a0"
+                android:background="@color/s_vk_color"
                 android:text="@string/login_vk"
                 android:textColor="@color/s_white" />
         </LinearLayout>

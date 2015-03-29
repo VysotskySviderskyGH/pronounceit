@@ -11,4 +11,7 @@
     <color name="s_smoke_white">#ddd</color>
     <color name="s_black_transparent">#80000000</color>
     <color name="s_white">#ffffff</color>
+    <color name="s_fb_color">#3b5998</color>
+    <color name="s_gp_color">#D34836</color>
+    <color name="s_vk_color">#6280a0</color>
 </resources>

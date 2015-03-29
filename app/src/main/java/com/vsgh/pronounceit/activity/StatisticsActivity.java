@@ -2,15 +2,21 @@ package com.vsgh.pronounceit.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.graphics.Palette;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxStatus;
+import com.androidquery.callback.BitmapAjaxCallback;
 import com.github.gorbin.asne.core.SocialNetwork;
 import com.github.gorbin.asne.core.SocialNetworkManager;
 import com.github.gorbin.asne.core.listener.OnLoginCompleteListener;
@@ -68,6 +74,7 @@ public class StatisticsActivity extends BaseVsghActivity {
     protected void hideProgress() {
         if (mProgressDialog != null) {
             mProgressDialog.dismiss();
+            mProgressDialog = null;
         }
     }
 
@@ -171,6 +178,9 @@ public class StatisticsActivity extends BaseVsghActivity {
                 socialNetwork.setOnLoginCompleteListener(this);
                 if (socialNetwork.isConnected()) {
                     setLoginState(true, socialNetwork.getID());
+                    socialNetwork.setOnRequestCurrentPersonCompleteListener(this);
+                    socialNetwork.requestCurrentPerson();
+                    ((StatisticsActivity) getActivity()).showProgress("Loading information about user");
                 }
             }
         }
@@ -182,15 +192,9 @@ public class StatisticsActivity extends BaseVsghActivity {
             SocialNetwork socialNetwork = mSocialNetworkManager.getSocialNetwork(networkId);
             socialNetwork.setOnRequestCurrentPersonCompleteListener(this);
             socialNetwork.requestCurrentPerson();
-            switch (networkId) {
-                case FacebookSocialNetwork.ID:
-                    break;
-                case VkSocialNetwork.ID:
-                    break;
-                case GooglePlusSocialNetwork.ID:
-                    break;
-            }
+            ((StatisticsActivity) getActivity()).showProgress("Loading information about user");
         }
+
 
         private void setLoginState(boolean loginState, final int networkId) {
             if (loginState) {
@@ -222,9 +226,40 @@ public class StatisticsActivity extends BaseVsghActivity {
         }
 
         @Override
-        public void onRequestSocialPersonSuccess(int i, SocialPerson socialPerson) {
+        public void onRequestSocialPersonSuccess(int networkId, SocialPerson socialPerson) {
+            ((StatisticsActivity) getActivity()).hideProgress();
+            int defColor = 0;
+            Resources resources = getActivity().getResources();
+            switch (networkId) {
+                case FacebookSocialNetwork.ID:
+                    defColor = resources.getColor(R.color.s_fb_color);
+                    break;
+                case VkSocialNetwork.ID:
+                    defColor = resources.getColor(R.color.s_vk_color);
+                    break;
+                case GooglePlusSocialNetwork.ID:
+                    defColor = resources.getColor(R.color.s_gp_color);
+                    break;
+            }
             aQuery.id(R.id.name).text(socialPerson.name);
-            aQuery.id(R.id.userpic).image(socialPerson.avatarURL);
+            final int finalDefColor = defColor;
+            aQuery.id(R.id.userpic).image(socialPerson.avatarURL, true, true, 0, 0, new BitmapAjaxCallback() {
+                @Override
+                public void callback(String url, ImageView iv, final Bitmap bm, AjaxStatus status) {
+                    Palette.PaletteAsyncListener listener = new Palette.PaletteAsyncListener() {
+                        public void onGenerated(Palette palette) {
+                            aQuery.id(R.id.userpic).image(bm);
+                            aQuery.id(R.id.nameLine)
+                                    .backgroundColor(palette.getLightMutedColor(finalDefColor));
+                            aQuery.id(R.id.connect).backgroundColor(finalDefColor);
+                            aQuery.id(R.id.share).backgroundColor(finalDefColor);
+                            aQuery.id(R.id.info).backgroundColor(finalDefColor);
+                            ((StatisticsActivity) getActivity()).hideProgress();
+                        }
+                    };
+                    Palette.generateAsync(bm, 2, listener);
+                }
+            });
         }
     }
 }
