@@ -12,7 +12,7 @@ import com.vsgh.pronounceit.activity.HelpActivity;
 import com.vsgh.pronounceit.apihelpers.gatodata.GatodataApi;
 import com.vsgh.pronounceit.apphelpers.SharedPrefsHelper;
 import com.vsgh.pronounceit.singletones.FontContainer;
-import com.vsgh.pronounceit.utils.Constants;
+import com.vsgh.pronounceit.utils.ConnChecker;
 
 /**
  * Created by Slawa on 2/1/2015.
@@ -43,7 +43,12 @@ public class PronounceItApp extends SugarApp {
     }
 
     private void downloadSentences() {
-        GatodataApi.downloadSentenceList();
+        if(ConnChecker.isOnline(this)) {
+            GatodataApi.downloadSentenceList();
+        } else {
+            //TODO Handle situation when user won't have internet
+        }
+
     }
 
     private void initFonts() {

@@ -8,12 +8,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.view.View;
-import android.widget.Toast;
 
 import com.vsgh.pronounceit.R;
 import com.vsgh.pronounceit.activity.base.BaseVsghActivity;
 import com.vsgh.pronounceit.logic.GameHandler;
 import com.vsgh.pronounceit.singletones.FontContainer;
+import com.vsgh.pronounceit.utils.ConnChecker;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,12 +36,11 @@ public class GameActivity extends BaseVsghActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_activity_layout);
         mediaPlayer = new MediaPlayer();
-        gameHandler = new GameHandler(aq,this);
+        gameHandler = new GameHandler(aq, this);
     }
 
     @Override
     protected void configureViews() {
-        // List<Sentence> sentences = Sentence.find(Sentence.class, "listen = ?", "false");
         aq.id(R.id.question_text).typeface(FontContainer.lanenar);
         aq.id(R.id.btn_get_voice).clicked(new View.OnClickListener() {
             @Override
@@ -58,32 +57,36 @@ public class GameActivity extends BaseVsghActivity {
         aq.id(R.id.btn_listen).clicked(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mediaPlayer.isPlaying()) {
-                    return;
-                }
-                Uri uri = gameHandler.getUri();
-                mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                try {
-                    mediaPlayer.setDataSource(GameActivity.this, uri);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return;
-                }
-                mediaPlayer.prepareAsync();
-                mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                    @Override
-                    public void onPrepared(MediaPlayer mp) {
-                        if (mp == mediaPlayer) {
-                            mp.start();
+                if (ConnChecker.isOnline(GameActivity.this)) {
+                    if (mediaPlayer.isPlaying()) {
+                        return;
+                    }
+                    Uri uri = gameHandler.getUri();
+                    mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                    try {
+                        mediaPlayer.setDataSource(GameActivity.this, uri);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        return;
+                    }
+                    mediaPlayer.prepareAsync();
+                    mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                        @Override
+                        public void onPrepared(MediaPlayer mp) {
+                            if (mp == mediaPlayer) {
+                                mp.start();
+                            }
                         }
-                    }
-                });
-                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mp) {
-                        mp.reset();
-                    }
-                });
+                    });
+                    mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mp) {
+                            mp.reset();
+                        }
+                    });
+                } else {
+                    Crouton.makeText(GameActivity.this, getString(R.string.interner_error), Style.INFO).show();
+                }
             }
         });
     }

@@ -1,6 +1,7 @@
 package com.vsgh.pronounceit.activity;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.vsgh.pronounceit.R;
 import com.vsgh.pronounceit.activity.base.BaseVsghActivity;
@@ -17,6 +18,11 @@ public class StatisticsActivity extends BaseVsghActivity {
 
     @Override
     protected void configureViews() {
-
+        aq.id(R.id.connect).clicked(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityWithoutParams(LoginActivity.class);
+            }
+        });
     }
 }

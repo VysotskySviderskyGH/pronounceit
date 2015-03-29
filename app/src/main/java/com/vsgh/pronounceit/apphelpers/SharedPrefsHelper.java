@@ -3,7 +3,7 @@ package com.vsgh.pronounceit.apphelpers;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.vsgh.pronounceit.utils.Constants;
+import com.vsgh.pronounceit.Constants;
 
 /**
  * Created by Slawa on 2/1/2015.

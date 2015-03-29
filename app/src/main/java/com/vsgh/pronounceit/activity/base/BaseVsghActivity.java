@@ -47,4 +47,8 @@ public abstract class BaseVsghActivity extends ActionBarActivity {
         super.onPause();
         AppEventsLogger.deactivateApp(this);
     }
+
+    public AQuery getAq() {
+        return aq;
+    }
 }

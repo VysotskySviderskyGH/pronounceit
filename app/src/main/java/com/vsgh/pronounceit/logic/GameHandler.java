@@ -45,10 +45,12 @@ public class GameHandler {
 
     private void setAnotherSentence() {
         //TODO Handle situation with repeating words and with interaction with DB
-        currentSentence = SentencesContainer.sentenceList.get(random.nextInt(SentencesContainer.sentenceList.size() - 1));
+        currentSentence = SentencesContainer
+                .sentenceList.get(random.nextInt(SentencesContainer.sentenceList.size() - 1));
     }
 
     private boolean isCorrect(String result) {
+        //TODO Will ignore exclamation marks etc when method will compare strings
         return result.equalsIgnoreCase(currentSentence.getSentence());
     }
 

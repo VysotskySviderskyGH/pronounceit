@@ -2,8 +2,11 @@
 
     <!-- KEYS -->
     <string name="facebook_app_id" translatable="false">1614098165472907</string>
+
     <string name="vk_secure_key" translatable="false">JKFahtP5diq6bj6Jnare</string>
     <string name="vk_app_id" translatable="false">4760918</string>
+
+    <string name="gp_api_key" translatable="false">AIzaSyAOLQ3tzSUQrVcVGfpGRJ6ADQPzeeaM2tU</string>
 
     <!-- STRINGS -->
     <string name="app_name">Pronounce It!</string>
@@ -22,8 +25,14 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="got_it">Got it!</string>
-    <string name="description">In this trainer you have good opportunity to improve your English. There is game mode where user will be offered to repeat word or sentence. You may listen it so you can memorize these pronunciations and will repeat it in future in the real life. Yet another mode is cards mode where you can add unknown word and listen correct pronunciation. This service uses special site Forvo.com with all words in the world. PronounceIt is sorting words by rating so you will have best pronounced word. And there is statistic where you can see your progress and share it with your friends from social networks.</string>
+    <string name="description">In this trainer you have a good opportunity to improve your English.
+There is a game mode where user will be offered to repeat word or sentence. You may listen to it so you can memorize these pronunciations and repeat it in future in real life.
+Yet another mode is "cards" mode where you can add unknown word and listen to a correct pronunciation. This service uses a special site Forvo.com with all words in the world. It sorts words by rating so you can listen to the best pronunciation of a word.
+And there is a statistic where you can see your progress and share it with your friends from social networks.
+We make your English better
+    </string>
     <string name="error_with_input">Sentence is skipped. Do not cancel input</string>
     <string name="said_msg">You said: </string>
+    <string name="interner_error">Please connect to the internet</string>
 
 </resources>

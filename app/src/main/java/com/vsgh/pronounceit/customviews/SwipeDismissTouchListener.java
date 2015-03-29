@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.vsgh.pronounceit.utils;
+package com.vsgh.pronounceit.customviews;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

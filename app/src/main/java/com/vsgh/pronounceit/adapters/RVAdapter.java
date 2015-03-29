@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.vsgh.pronounceit.R;
 import com.vsgh.pronounceit.persistence.Sounds;
-import com.vsgh.pronounceit.utils.SwipeDismissTouchListener;
+import com.vsgh.pronounceit.customviews.SwipeDismissTouchListener;
 
 import java.util.ArrayList;
 import java.util.List;

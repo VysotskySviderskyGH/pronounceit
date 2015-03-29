@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.vsgh.pronounceit.customviews.CustomRippleView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:ripple="http://schemas.android.com/apk/res-auto"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    ripple:rv_color="@color/s_blue">
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center">
 
-        <include layout="@layout/header"/>
+        <include layout="@layout/header" />
 
         <LinearLayout
             android:id="@+id/layout_content"
@@ -33,15 +28,16 @@
                 android:text="@string/please_say" />
 
             <TextView
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:id="@+id/question_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:gravity="center"
                 android:textSize="30sp" />
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,30 +48,33 @@
                 android:id="@+id/btn_skip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
-                custom:cv_background="@drawable/custom_button_shape"
+                android:layout_margin="10dp"
                 android:text="@string/skip_msg"
-                android:layout_margin="10dp"/>
+                android:textSize="16sp"
+                custom:cv_background="@drawable/custom_button_shape" />
 
             <com.vsgh.pronounceit.customviews.CustomButton
                 android:id="@+id/btn_listen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
-                custom:cv_background="@drawable/custom_button_shape"
+                android:layout_margin="10dp"
                 android:text="@string/listen_msg"
-                android:layout_margin="10dp"/>
+                android:textSize="16sp"
+                custom:cv_background="@drawable/custom_button_shape" />
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
             <at.markushi.ui.CircleButton
-                android:layout_gravity="center"
                 android:id="@+id/btn_get_voice"
-                android:layout_width="220dp"
-                android:layout_height="220dp"
-                android:scaleType="centerCrop"
+                android:layout_width="220dip"
+                android:layout_height="220dip"
                 android:src="@drawable/ic_mic"
                 app:cb_color="@color/s_blue"
-                app:cb_pressedRingWidth="10dip"/>
+                app:cb_pressedRingWidth="8dip" />
+        </LinearLayout>
 
     </LinearLayout>
-</com.vsgh.pronounceit.customviews.CustomRippleView>
+

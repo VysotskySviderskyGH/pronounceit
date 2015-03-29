@@ -12,7 +12,7 @@ public class HelpActivity extends BaseVsghActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_help);
+        setContentView(R.layout.activity_help_layout);
     }
 
     @Override
