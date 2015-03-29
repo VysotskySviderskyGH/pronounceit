@@ -69,13 +69,10 @@
             android:label="@string/title"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Transparent">
-            <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".activity.HelpActivity"
-            android:label="@string/title_activity_help"></activity>
+            android:label="@string/title_activity_help"/>
     </application>
 
 </manifest>
