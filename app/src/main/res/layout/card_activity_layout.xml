@@ -1,41 +1,43 @@
-<com.vsgh.pronounceit.customviews.TargetedSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/swipe_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvExampleGrid"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
         <LinearLayout
             android:id="@+id/myQRBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="#FF243F61"
+            android:background="#003366"
             android:orientation="horizontal"
-            android:padding="4dp">
-
-
+            android:padding="4dp"
+            android:layout_gravity="center_horizontal|bottom"
+            >
             <TextView
                 android:id="@+id/tvQRBarTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="60dp"
                 android:ellipsize="end"
-                android:maxLines="2"
-                android:text="Text in my QR Bar"
+                android:maxLines="1"
+                android:text="Tap to add card"
                 android:textColor="@android:color/white"
-                android:textSize="16sp" />
-
+                android:textSize="30dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"/>
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@android:drawable/ic_input_add"
+                android:layout_marginLeft="6dp"/>
 
         </LinearLayout>
 
-    </FrameLayout>
-
-</com.vsgh.pronounceit.customviews.TargetedSwipeRefreshLayout>
+</LinearLayout>

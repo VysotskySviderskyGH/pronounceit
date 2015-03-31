@@ -4,42 +4,34 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Handler;
 import android.speech.tts.TextToSpeech;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.vsgh.pronounceit.R;
 import com.vsgh.pronounceit.activity.base.BaseVsghActivity;
 import com.vsgh.pronounceit.adapters.RVAdapter;
+import com.vsgh.pronounceit.apihelpers.forvo.ForvoApi;
 import com.vsgh.pronounceit.customviews.QRBarDecoration;
 import com.vsgh.pronounceit.persistence.Sounds;
-import com.vsgh.pronounceit.customviews.TargetedSwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 /**
  * Created by Eren on 18.02.2015.
  */
 public class CardActivity extends BaseVsghActivity {
 
-    // An array of meaningless titles
-    private static final String[] someTitles = {
-            "Test 1",
-            "Test 2",
-            "Test 3",
-    };
-    public TargetedSwipeRefreshLayout swiper;
     Context context;
     private RecyclerView mRecycler;
     private StaggeredGridLayoutManager mSGLM;
@@ -47,15 +39,10 @@ public class CardActivity extends BaseVsghActivity {
     private TextView tvQRBarTitle;
     private RVAdapter mAdapter;
     private ArrayList<String> myDataset;
-    private Animation inAnim;
-    private Animation outAnim;
     private TextToSpeech mTTS;
-    // For randomizing titles across our dataset
-    private Random randy = new Random();
-
-    // See QRBar setup below
     private int columnCount;
     private int qrBarHeight;
+    private ImageView imageView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,11 +57,7 @@ public class CardActivity extends BaseVsghActivity {
         //////////////////////
         //  Setup QR Bar    //
         //////////////////////
-        inAnim = AnimationUtils.loadAnimation(this, R.anim.abc_slide_in_top);
-        outAnim = AnimationUtils.loadAnimation(this, R.anim.abc_slide_out_top);
         qrBar = (LinearLayout) findViewById(R.id.myQRBar);
-        // In production, better to get this from a "values.xml" resource
-        // in a res folder appropriate to screen size / orientation
         columnCount = 2;
         // Set the QRBar Height to that of the ActionBar
         TypedValue tv = new TypedValue();
@@ -82,65 +65,17 @@ public class CardActivity extends BaseVsghActivity {
             qrBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
         }
         tvQRBarTitle = (TextView) findViewById(R.id.tvQRBarTitle);
-        tvQRBarTitle.setText("Tap to add card");
         tvQRBarTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
-                alertDialog.setTitle("Add card");
-                alertDialog.setMessage("Enter word");
-                final EditText input = new EditText(context);
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT);
-                input.setLayoutParams(lp);
-                alertDialog.setView(input);
-                alertDialog.setIcon(R.drawable.ic_launcher);
-                alertDialog.setPositiveButton("Add",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (input.getText().toString().length() > 2) {
-                                    addItemAtPosition(0, input.getText().toString());
-                                }
-                            }
-                        });
-                alertDialog.setNegativeButton("NO",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
-                alertDialog.show();
+                kostul();
             }
         });
-        //////////////////////////////
-        //  Setup Swipe To Refresh  //
-        //////////////////////////////
-        swiper = (TargetedSwipeRefreshLayout) findViewById(R.id.swipe_container);
-        swiper.setSize(SwipeRefreshLayout.LARGE);
-        swiper.setColorSchemeResources(
-                android.R.color.holo_blue_bright,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_green_light,
-                android.R.color.holo_red_light
-        );
-        swiper.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        imageView = (ImageView) findViewById(R.id.image);
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onRefresh() {
-                // This is where you should kickoff the
-                // refreshing task.
-
-                // For now, just wait a few seconds and turn off refreshing.
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (myDataset != null && mAdapter != null) {
-                            // Collections.shuffle(myDataset);
-                            mAdapter.notifyDataSetChanged();
-                        }
-                        swiper.setRefreshing(false);
-                    }
-                }, 0);
+            public void onClick(View v) {
+                kostul();
             }
         });
         //////////////////////////////////////////////
@@ -153,32 +88,63 @@ public class CardActivity extends BaseVsghActivity {
         //////////////////////////////
         //  Setup Adapter & DataSet //
         //////////////////////////////
-        myDataset = new ArrayList<String>();
-        // Load up the dataset with random titles
+        myDataset = new ArrayList<>();
         List<Sounds> sounds = Sounds.listAll(Sounds.class);
         for (Sounds sound : sounds) {
             myDataset.add(sound.getName());
         }
         mAdapter = new RVAdapter(this, myDataset, mTTS);
-        // Set the RecyclerView's Adapter
         mRecycler.setAdapter(mAdapter);
-
-        // Set the Recyclerview to be the target scrollable view
-        // for the TargetedSwipeRefreshAdapter.
-        swiper.setTargetScrollableView(mRecycler);
     }
 
-    /**
-     * Adds an item at postion, and scrolls to that position.
-     *
-     * @param position index in dataset
-     * @param item     to add
-     */
     public void addItemAtPosition(int position, String item) {
         myDataset.add(position, item);
         mAdapter.notifyItemInserted(position);
-        mSGLM.scrollToPosition(position);
-        Sounds sounds = new Sounds(item);
+        Sounds sounds = new Sounds(item, false);
         sounds.save();
+        ForvoApi.downloadMp3Url(this, sounds.getName());
+    }
+
+    private void kostul(){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+        alertDialog.setTitle("Add card");
+        alertDialog.setMessage("Enter word");
+        final EditText input = new EditText(context);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        input.setLayoutParams(lp);
+        alertDialog.setView(input);
+        alertDialog.setIcon(R.drawable.ic_launcher);
+        alertDialog.setPositiveButton("Add",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (input.getText().toString().length() > 1){
+                            List<Sounds> sounds =  Sounds.listAll(Sounds.class);
+                            for(Sounds temp : sounds)
+                                if(temp.getName().toLowerCase().equals(
+                                        input.getText().toString().toLowerCase())){
+                                    Crouton.makeText((android.app.Activity) context,
+                                        getString(R.string.already_exists), Style.INFO).show();
+                                    return;
+                                }
+                            String str = input.getText().toString();
+                            String goodStr = str.trim();
+                            int k = goodStr.indexOf(" ");
+                            if(k == -1){
+                                addItemAtPosition(myDataset.size(), goodStr);
+                            }else{
+                                addItemAtPosition(myDataset.size(), str.substring(0,k));
+                            }
+                        }
+                    }
+                });
+        alertDialog.setNegativeButton("NO",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        alertDialog.show();
     }
 }

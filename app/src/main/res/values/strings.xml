@@ -21,6 +21,8 @@
     <string name="skip_msg">skip</string>
     <string name="listen_msg">listen</string>
     <string name="title_activity_help">HelpActivity</string>
+    <string name="already_exists">This card already exists</string>
+
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
