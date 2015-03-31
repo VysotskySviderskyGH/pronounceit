@@ -1,6 +1,9 @@
 package com.vsgh.pronounceit.adapters;
 
 import android.content.Context;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.os.Environment;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -9,13 +12,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.vsgh.pronounceit.Constants;
 import com.vsgh.pronounceit.R;
 import com.vsgh.pronounceit.customviews.SwipeDismissTouchListener;
 import com.vsgh.pronounceit.persistence.Sounds;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 /**
  * Created by Eren on 18.02.2015.
@@ -28,6 +37,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>
     private ArrayList<String> mDataset;
     private Context mContext;
     private TextToSpeech mTTS;
+    private MediaPlayer mediaPlayer;
 
     public RVAdapter(Context context, ArrayList<String> myDataset, TextToSpeech mTTS) {
         this.mDataset = myDataset;
@@ -59,16 +69,20 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>
                     @Override
                     public void onDismiss(View view, Object token) {
                         parent.removeView(holder.itemView);
-                        List<Sounds> sounds = Sounds.listAll(Sounds.class);
-                        for (Sounds temp : sounds) {
-                            if (temp.getName().equals(mDataset.get(holder.getLayoutPosition()))) {
-                                Sounds sounds1 = Sounds.findById(Sounds.class, temp.getId());
-                                sounds1.delete();
-                                mDataset.remove(temp.getName());
-                                notifyDataSetChanged();
-                                break;
-                            }
+                        List<Sounds> sounds = Sounds.find(Sounds.class, "name = ?",
+                                mDataset.get(holder.getLayoutPosition()));
+                        sounds.get(0).delete();
+                        mDataset.remove(sounds.get(0).getName());
+                        notifyItemRangeRemoved(holder.getLayoutPosition(), 1);
+                        if (!Environment.getExternalStorageState().equals(
+                                Environment.MEDIA_MOUNTED)) {
+                            return;
                         }
+                        File file = Environment.getExternalStorageDirectory();
+                        file = new File(file.getAbsolutePath() + "/" +
+                                Constants.DESTINATION_URI +
+                                sounds.get(0).getName() + ".mp3");
+                        file.delete();
                     }
                 }));
         return holder;
@@ -76,11 +90,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>
 
     @Override
     public void onBindViewHolder(RVAdapter.ViewHolder holder, int position) {
-//        int colorIndex = randy.nextInt(bgColors.length);
         holder.tvTitle.setText(mDataset.get(position));
-//        holder.tvTitle.setBackgroundColor(bgColors[colorIndex]);
-//        holder.tvSubTitle.setBackgroundColor(sbgColors[colorIndex]);
-
     }
 
     @Override
@@ -92,7 +102,33 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>
     public void onClick(View v) {
         ViewHolder holder = (ViewHolder) v.getTag();
         String theString = mDataset.get(holder.getLayoutPosition());
-        mTTS.speak(theString, TextToSpeech.QUEUE_FLUSH, null);
+        if (!Environment.getExternalStorageState().equals(
+                Environment.MEDIA_MOUNTED)) {
+            return;
+        }
+        File sdPath = Environment.getExternalStorageDirectory();
+        sdPath = new File(sdPath.getAbsolutePath() + "/" +
+                Constants.DESTINATION_URI +
+                theString + ".mp3");
+        List<Sounds> sounds = Sounds.find(Sounds.class, "name = ?",
+                mDataset.get(holder.getLayoutPosition()));
+        if (!sounds.get(0).getDownloaded()) {
+            Crouton.makeText((android.app.Activity) mContext, "This card cannot be listened", Style.INFO).show();
+            return;
+        }
+        mediaPlayer = new MediaPlayer();
+        try {
+            mediaPlayer.setDataSource(String.valueOf(sdPath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            mediaPlayer.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mediaPlayer.start();
     }
 
     @Override

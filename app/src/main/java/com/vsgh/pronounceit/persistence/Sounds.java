@@ -7,15 +7,26 @@ import com.orm.SugarRecord;
  */
 public class Sounds extends SugarRecord<Sounds> {
     String name;
+    Boolean downloaded;
 
     public Sounds() {
     }
 
-    public Sounds(String name) {
+    public Sounds(String name, Boolean downloaded) {
+
         this.name = name;
+        this.downloaded = downloaded;
     }
 
     public String getName() {
         return name;
+    }
+
+    public Boolean getDownloaded() {
+        return downloaded;
+    }
+
+    public void setDownloaded(Boolean downloaded) {
+        this.downloaded = downloaded;
     }
 }

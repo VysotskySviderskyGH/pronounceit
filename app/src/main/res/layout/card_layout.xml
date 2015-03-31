@@ -24,7 +24,7 @@
             android:layout_gravity="center|fill_horizontal"
             android:gravity="center"
             android:padding="10dp"
-            android:text="This is a long title to show wrapping of text in the view."
+            android:text="@string/long_title"
             android:textColor="@android:color/black"
             android:textSize="16sp" />
 
@@ -33,9 +33,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center|fill_horizontal"
-            android:background="@android:color/holo_purple"
+            android:background="@color/s_blue"
             android:padding="6dp"
-            android:text="Press me to listen"
+            android:text="@string/press_me"
             android:textColor="@android:color/white"
             android:textSize="12sp" />
 

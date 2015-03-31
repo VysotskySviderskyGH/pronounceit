@@ -7,6 +7,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 
+import com.vsgh.pronounceit.persistence.Sounds;
+
+import java.util.List;
+
 /**
  * Created by Slawa on 3/26/2015.
  */
@@ -27,11 +31,10 @@ public class WordsLoader {
             @Override
             public void onReceive(Context context, Intent intent) {
                 long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0L);
-                if (id != downloadID) {
-                    //TODO Handle in DB and interface
-                } else {
-
-                    //TODO Handle in DB and interface
+                if (id == downloadID) {
+                    List<Sounds> sounds = Sounds.find(Sounds.class, "name = ?", word);
+                    sounds.get(0).setDownloaded(true);
+                    sounds.get(0).save();
                 }
             }
         };

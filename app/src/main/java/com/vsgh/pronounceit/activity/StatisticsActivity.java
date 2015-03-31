@@ -211,14 +211,14 @@ public class StatisticsActivity extends BaseVsghActivity {
             } else {
                 aQuery.id(R.id.connect).text(getActivity().getString(R.string.login))
                         .clicked(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        startActivityForResult(new Intent(getActivity(),
-                                        LoginButtonsActivity.class),
-                                LOGIN_REQ_CODE);
-                        ((StatisticsActivity) getActivity()).hideProgress();
-                    }
-                });
+                            @Override
+                            public void onClick(View v) {
+                                startActivityForResult(new Intent(getActivity(),
+                                                LoginButtonsActivity.class),
+                                        LOGIN_REQ_CODE);
+                                ((StatisticsActivity) getActivity()).hideProgress();
+                            }
+                        });
             }
         }
 

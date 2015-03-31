@@ -21,6 +21,8 @@
     <string name="skip_msg">skip</string>
     <string name="listen_msg">listen</string>
     <string name="title_activity_help">HelpActivity</string>
+    <string name="already_exists">This card already exists</string>
+
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -44,5 +46,8 @@ We make your English better
     <string name="loading_info">Loading information about user</string>
     <string name="logout">Logout</string>
     <string name="login">Login</string>
+    <string name="tap_to_add">Tap to add a card</string>
+    <string name="long_title">This is a long title to show wrapping of text in the view.</string>
+    <string name="press_me">Press me to listen</string>
 
 </resources>
