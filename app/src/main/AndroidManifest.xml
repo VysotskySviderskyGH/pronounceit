@@ -67,12 +67,16 @@
         <activity
             android:name=".activity.HelpActivity"
             android:label="@string/title_activity_help"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.LoginButtonsActivity"
             android:label="@string/title_activity_login_buttons"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Transparent">
+            android:theme="@style/Theme.Transparent" >
+        </activity>
+        <activity
+            android:name=".activity.AboutActivity"
+            android:label="@string/title_activity_about" >
         </activity>
     </application>
 

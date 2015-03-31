@@ -25,6 +25,7 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
                 android:paddingTop="40dp"
+                android:textSize="@dimen/game_msg_text_size"
                 android:text="@string/please_say" />
 
             <TextView
@@ -34,7 +35,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:gravity="center"
-                android:textSize="30sp" />
+                android:textSize="@dimen/question_msg_text_size" />
 
         </LinearLayout>
 

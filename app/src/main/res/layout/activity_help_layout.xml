@@ -24,11 +24,11 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:textSize="16sp"
+                android:textSize="@dimen/help_text_size"
                 android:id="@+id/description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="17dp"
+                android:layout_margin="@dimen/standart_layout_margin"
                 android:text="@string/description" />
         </ScrollView>
     </LinearLayout>
@@ -42,7 +42,7 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:text="@string/got_it"
-        android:textSize="33sp"
+        android:textSize="@dimen/about_btn_text_size"
         custom:cv_background="@drawable/custom_button_shape" />
 
 </LinearLayout>
