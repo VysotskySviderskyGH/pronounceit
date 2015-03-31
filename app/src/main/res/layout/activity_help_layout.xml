@@ -24,12 +24,12 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:textSize="@dimen/help_text_size"
                 android:id="@+id/description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/standart_layout_margin"
-                android:text="@string/description" />
+                android:text="@string/description"
+                android:textSize="@dimen/help_text_size" />
         </ScrollView>
     </LinearLayout>
 

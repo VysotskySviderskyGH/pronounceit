@@ -12,7 +12,7 @@ public class Sentence extends SugarRecord<Sentence> {
     private int lessonId;
     private boolean listen;
 
-    public Sentence(){
+    public Sentence() {
     }
 
     public Sentence(Long id, String sentence, String link, int lessonId, Boolean listen) {

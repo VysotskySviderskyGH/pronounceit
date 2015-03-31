@@ -1,10 +1,8 @@
 package com.vsgh.pronounceit.activity;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 
-import com.cocosw.bottomsheet.BottomSheet;
 import com.vsgh.pronounceit.R;
 import com.vsgh.pronounceit.activity.base.BaseVsghActivity;
 

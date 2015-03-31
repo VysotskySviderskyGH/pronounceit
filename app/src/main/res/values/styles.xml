@@ -3,18 +3,6 @@
     <!-- Base application theme -->
     <style name="PITheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textAllCaps">false</item>
-        <item name="bottomSheetStyle">@style/BottomSheet.StyleDialog</item>
-    </style>
-
-    <!-- Dialog theme -->
-    <style name="BottomSheet.StyleDialog" parent="BottomSheet.Dialog">
-        <item name="android:backgroundDimAmount">0.8</item>
-        <item name="android:windowAnimationStyle">@style/BottomSheet.Animation</item>
-        <item name="bs_dialogBackground">@color/s_background</item>
-        <item name="bs_numColumns">3</item>
-        <item name="android:textColorPrimary">@color/s_menu_text_color</item>
-        <item name="android:textColorSecondary">@color/s_menu_text_color</item>
-        <item name="android:textColorHint">@color/s_menu_text_color</item>
     </style>
 
     <!-- Transparent activity -->

@@ -25,7 +25,7 @@ public class SharedPrefsHelper {
     }
 
     public static void writeBooleanToSP(SharedPreferences settings,
-                                       final String name, final boolean value) {
+                                        final String name, final boolean value) {
         SharedPreferences.Editor editor = settings.edit();
         editor.putBoolean(name, value);
         editor.apply();

@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.orm.SugarApp;
 import com.vsgh.pronounceit.activity.HelpActivity;
 import com.vsgh.pronounceit.apihelpers.gatodata.GatodataApi;
@@ -27,7 +25,6 @@ public class PronounceItApp extends SugarApp {
     public void onCreate() {
         super.onCreate();
         initFonts();
-        initImageDownloader();
         settings = getSharedPreferences(Constants.PREFS_NAME,
                 Context.MODE_PRIVATE);
         boolean firstStart = settings.getBoolean(
@@ -43,7 +40,7 @@ public class PronounceItApp extends SugarApp {
     }
 
     private void downloadSentences() {
-        if(ConnChecker.isOnline(this)) {
+        if (ConnChecker.isOnline(this)) {
             GatodataApi.downloadSentenceList();
         } else {
             //TODO Handle situation when user won't have internet
@@ -57,11 +54,6 @@ public class PronounceItApp extends SugarApp {
         FontContainer.myriadpro = Typeface.createFromAsset(getAssets(), MYRIAD_PRO_FONT);
     }
 
-    private void initImageDownloader() {
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
-                .build();
-        ImageLoader.getInstance().init(config);
-    }
 }
 
 

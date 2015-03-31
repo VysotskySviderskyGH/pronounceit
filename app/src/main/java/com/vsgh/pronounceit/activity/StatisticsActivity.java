@@ -160,9 +160,10 @@ public class StatisticsActivity extends BaseVsghActivity {
                     if (!socialNetwork.isConnected()) {
                         if (networkId != 0) {
                             socialNetwork.requestLogin();
-                            ((StatisticsActivity) getActivity()).showProgress("Loading");
+                            ((StatisticsActivity) getActivity())
+                                    .showProgress(getActivity().getString(R.string.loading_msg));
                         } else {
-                            Toast.makeText(getActivity(), "Wrong networkId", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), getActivity().getString(R.string.wrong_sid), Toast.LENGTH_LONG).show();
                         }
                     } else {
                         Toast.makeText(getActivity(), "You've already logged " + socialNetwork.getID(),
@@ -192,22 +193,24 @@ public class StatisticsActivity extends BaseVsghActivity {
             SocialNetwork socialNetwork = mSocialNetworkManager.getSocialNetwork(networkId);
             socialNetwork.setOnRequestCurrentPersonCompleteListener(this);
             socialNetwork.requestCurrentPerson();
-            ((StatisticsActivity) getActivity()).showProgress("Loading information about user");
+            ((StatisticsActivity) getActivity()).showProgress(getActivity().getString(R.string.loading_info));
         }
 
 
         private void setLoginState(boolean loginState, final int networkId) {
             if (loginState) {
-                aQuery.id(R.id.connect).text("Logout").clicked(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mSocialNetworkManager.getSocialNetwork(networkId).cancelAll();
-                        mSocialNetworkManager.getSocialNetwork(networkId).logout();
-                        setLoginState(false, networkId);
-                    }
-                });
+                aQuery.id(R.id.connect).text(getActivity().getString(R.string.logout))
+                        .clicked(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                mSocialNetworkManager.getSocialNetwork(networkId).cancelAll();
+                                mSocialNetworkManager.getSocialNetwork(networkId).logout();
+                                setLoginState(false, networkId);
+                            }
+                        });
             } else {
-                aQuery.id(R.id.connect).text("Login").clicked(new View.OnClickListener() {
+                aQuery.id(R.id.connect).text(getActivity().getString(R.string.login))
+                        .clicked(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         startActivityForResult(new Intent(getActivity(),

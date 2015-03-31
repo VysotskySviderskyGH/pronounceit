@@ -21,8 +21,8 @@ import com.vsgh.pronounceit.R;
 import com.vsgh.pronounceit.activity.base.BaseVsghActivity;
 import com.vsgh.pronounceit.adapters.RVAdapter;
 import com.vsgh.pronounceit.customviews.QRBarDecoration;
-import com.vsgh.pronounceit.persistence.Sounds;
 import com.vsgh.pronounceit.customviews.TargetedSwipeRefreshLayout;
+import com.vsgh.pronounceit.persistence.Sounds;
 
 import java.util.ArrayList;
 import java.util.List;

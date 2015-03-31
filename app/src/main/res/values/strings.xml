@@ -39,5 +39,10 @@ We make your English better
     <string name="login_fb">Login via Facebook</string>
     <string name="title_activity_login_buttons">LoginButtonsActivity</string>
     <string name="title_activity_about">AboutActivity</string>
+    <string name="wrong_sid">Wrong networkId</string>
+    <string name="loading_msg">Loading</string>
+    <string name="loading_info">Loading information about user</string>
+    <string name="logout">Logout</string>
+    <string name="login">Login</string>
 
 </resources>

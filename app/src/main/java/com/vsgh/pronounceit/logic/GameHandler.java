@@ -1,6 +1,5 @@
 package com.vsgh.pronounceit.logic;
 
-import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 
@@ -21,25 +20,24 @@ import de.keyboardsurfer.android.widget.crouton.Style;
  */
 public class GameHandler {
 
+    private final Random random = new Random();
     private AQuery aQuery;
     private Context context;
-
-    private final Random random = new Random();
     private Sentence currentSentence;
-
-    private void init() {
-        if (SentencesContainer.sentenceList == null) {
-            SentencesContainer.sentenceList = Sentence.listAll(Sentence.class);
-        }
-    }
 
     public GameHandler(AQuery aQuery, Context context) {
         this.aQuery = aQuery;
         this.context = context;
         init();
-        if(currentSentence==null){
+        if (currentSentence == null) {
             setAnotherSentence();
             updateView();
+        }
+    }
+
+    private void init() {
+        if (SentencesContainer.sentenceList == null) {
+            SentencesContainer.sentenceList = Sentence.listAll(Sentence.class);
         }
     }
 
@@ -65,12 +63,12 @@ public class GameHandler {
     public void sendResultToHandler(String result) {
         if (isCorrect(result)) {
             handleSuccess();
-            Crouton.makeText((BaseVsghActivity)context,
+            Crouton.makeText((BaseVsghActivity) context,
                     context.getString(R.string.said_msg) + " " + result,
                     Style.CONFIRM).show();
         } else {
             handleUnsuccess();
-            Crouton.makeText((BaseVsghActivity)context,
+            Crouton.makeText((BaseVsghActivity) context,
                     context.getString(R.string.said_msg) + " " + result,
                     Style.ALERT).show();
         }

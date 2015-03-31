@@ -12,18 +12,18 @@
         android:id="@+id/llCardBack"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
         android:animateLayoutChanges="true"
-        android:padding="4dp"
-        android:orientation="vertical">
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:padding="4dp">
 
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center|fill_horizontal"
-            android:padding="10dp"
             android:gravity="center"
+            android:padding="10dp"
             android:text="This is a long title to show wrapping of text in the view."
             android:textColor="@android:color/black"
             android:textSize="16sp" />

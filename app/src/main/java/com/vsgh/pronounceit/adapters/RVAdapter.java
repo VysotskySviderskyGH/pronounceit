@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.vsgh.pronounceit.R;
-import com.vsgh.pronounceit.persistence.Sounds;
 import com.vsgh.pronounceit.customviews.SwipeDismissTouchListener;
+import com.vsgh.pronounceit.persistence.Sounds;
 
 import java.util.ArrayList;
 import java.util.List;
