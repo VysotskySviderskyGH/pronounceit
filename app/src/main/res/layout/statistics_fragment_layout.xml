@@ -36,7 +36,7 @@
                     android:paddingRight="8dp"
                     android:paddingTop="8dp"
                     android:singleLine="false"
-                    android:text="Name"
+                    android:text="@string/username"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/s_white" />
             </LinearLayout>
@@ -83,24 +83,17 @@
                         android:layout_marginRight="1dp"
                         android:layout_weight="1"
                         android:background="@android:color/white"
-                        android:text="Login" />
+                        android:text="@string/login" />
 
                     <Button
-                        android:id="@+id/info"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@android:color/white"
-                        android:text="Second button" />
-
-                    <Button
+                        android:enabled="false"
                         android:id="@+id/share"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="1dp"
                         android:layout_weight="1"
                         android:background="@android:color/white"
-                        android:text="Third button" />
+                        android:text="@string/share" />
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
@@ -111,7 +104,6 @@
             android:layout_height="128dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentStart="false"
             android:layout_alignParentTop="true"
             android:layout_margin="10dp"
             android:background="@color/s_asphalt"

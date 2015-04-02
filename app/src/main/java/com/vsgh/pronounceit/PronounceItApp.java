@@ -41,7 +41,7 @@ public class PronounceItApp extends SugarApp {
 
     private void downloadSentences() {
         if (ConnChecker.isOnline(this)) {
-            GatodataApi.downloadSentenceList();
+            GatodataApi.downloadSentenceList(this,false);
         } else {
             //TODO Handle situation when user won't have internet
         }

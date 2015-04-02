@@ -7,5 +7,5 @@ public final class Constants {
     public static final String PREFS_NAME = "AppPrefs";
     public static final String FIRST_START = "FIRST_START";
     public static final String DESTINATION_URI = "Android/data/com.vsgh.pronounceit/files/";
-    public static final String NETWORK_ID = "NETWORK_ID";
+    public static final String USERNAME_PREFS = "username";
 }

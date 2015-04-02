@@ -4,10 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.vsgh.pronounceit.R;
-import com.vsgh.pronounceit.adapters.RVAdapter;
-import com.vsgh.pronounceit.persistence.Sounds;
-import com.vsgh.pronounceit.utils.ConnChecker;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;

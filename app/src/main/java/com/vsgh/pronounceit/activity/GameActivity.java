@@ -61,12 +61,14 @@ public class GameActivity extends BaseVsghActivity {
                     if (mediaPlayer.isPlaying()) {
                         return;
                     }
-                    Uri uri = gameHandler.getUri();
+                    aq.id(R.id.btn_listen).enabled(false);
+                    final Uri uri = gameHandler.getUri();
                     mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                     try {
                         mediaPlayer.setDataSource(GameActivity.this, uri);
-                    } catch (IOException e) {
+                    } catch (IOException | IllegalStateException e) {
                         e.printStackTrace();
+                        mediaPlayer.stop();
                         return;
                     }
                     mediaPlayer.prepareAsync();
@@ -81,7 +83,15 @@ public class GameActivity extends BaseVsghActivity {
                     mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                         @Override
                         public void onCompletion(MediaPlayer mp) {
-                            mp.reset();
+                            try {
+                                if (mp == mediaPlayer) {
+                                    mp.reset();
+                                }
+                            } catch (IllegalArgumentException | IllegalStateException e) {
+                                e.printStackTrace();
+                            } finally {
+                                aq.id(R.id.btn_listen).enabled(true);
+                            }
                         }
                     });
                 } else {

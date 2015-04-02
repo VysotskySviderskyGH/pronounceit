@@ -39,7 +39,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>
     // Hold the position of the expanded item
     private ArrayList<String> mDataset;
     private Context mContext;
-
     private MediaPlayer mediaPlayer;
 
     public RVAdapter(Context context, ArrayList<String> myDataset) {

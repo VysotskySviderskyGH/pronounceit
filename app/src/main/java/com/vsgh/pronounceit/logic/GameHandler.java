@@ -47,9 +47,18 @@ public class GameHandler {
                 .sentenceList.get(random.nextInt(SentencesContainer.sentenceList.size() - 1));
     }
 
+    private String cleanString(String string) {
+        return string.replace("!", "")
+                .replace("?", "")
+                .replace(",", "")
+                .replace(".", "")
+                .replace("'", "")
+                .replace(" ", "");
+    }
+
     private boolean isCorrect(String result) {
-        //TODO Will ignore exclamation marks etc when method will compare strings
-        return result.equalsIgnoreCase(currentSentence.getSentence());
+        return cleanString(result)
+                .equalsIgnoreCase(cleanString(currentSentence.getSentence()));
     }
 
     private void handleSuccess() {
