@@ -1,7 +1,10 @@
 package com.vsgh.pronounceit.apihelpers.gatodata;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 
+import com.vsgh.pronounceit.activity.GameActivity;
 import com.vsgh.pronounceit.persistence.Sentence;
 
 import org.json.JSONArray;
@@ -25,7 +28,7 @@ public class GatodataApi {
     public static final String NAME_PARAM = "audio_link";
     public static final String LESSON_ID_PARAM = "lesson_id";
 
-    public static void downloadSentenceList() {
+    public static void downloadSentenceList(final Context context, final boolean isFromMenu) {
         new AsyncTask<Void, Void, Void>() {
 
             @Override
@@ -77,6 +80,9 @@ public class GatodataApi {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
+                if(isFromMenu) {
+                    context.startActivity(new Intent(context,GameActivity.class));
+                }
             }
 
         }.execute();

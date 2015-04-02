@@ -3,6 +3,8 @@ package com.vsgh.pronounceit.apihelpers.forvo;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.vsgh.pronounceit.persistence.Sounds;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
