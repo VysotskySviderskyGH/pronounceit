@@ -22,6 +22,9 @@
     <string name="listen_msg">listen</string>
     <string name="title_activity_help">HelpActivity</string>
     <string name="already_exists">This card already exists</string>
+    <string name="cannot_listened">This card cannot be listened</string>
+    <string name="incorrectly_words">Incorrectly entered words</string>
+    <string name="click_me">Please click me againe</string>
 
 
     <string name="hello_world">Hello world!</string>

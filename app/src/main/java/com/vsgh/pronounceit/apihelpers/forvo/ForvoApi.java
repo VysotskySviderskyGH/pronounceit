@@ -1,7 +1,13 @@
 package com.vsgh.pronounceit.apihelpers.forvo;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
+
+import com.vsgh.pronounceit.R;
+import com.vsgh.pronounceit.adapters.RVAdapter;
+import com.vsgh.pronounceit.persistence.Sounds;
+import com.vsgh.pronounceit.utils.ConnChecker;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,22 +18,35 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 /**
  * Created by Slawa on 2/8/2015.
  */
 public class ForvoApi {
-    public static void downloadMp3Url(final Context context, final String word) {
+
+    public static void downloadMp3Url(final Context context, final String word,
+                                      final RVAdapter rvAdapter,
+                                      final int position, final ArrayList arrayList) {
         final String url = ForvoParams.getUrl(word);
         new AsyncTask<String, Void, String>() {
             @Override
             protected String doInBackground(String... params) {
                 String mp3url = "";
                 try {
-                    String json = downloadJSON(new URL(params[0]));
-                    mp3url = getDirectUrl(json);
+                    if(ConnChecker.isOnline(context)){
+                        String json = downloadJSON(new URL(params[0]));
+                        mp3url = getDirectUrl(json);
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
+                }
+                if(!ConnChecker.isOnline(context)){
+                    mp3url = "noCon";
                 }
                 return mp3url;
             }
@@ -57,10 +76,15 @@ public class ForvoApi {
 
             @Override
             protected void onPostExecute(String url) {
-                if (url != null) {
+                if (!url.equals("") && !url.equals("noCon")) {
                     WordsLoader.downloadWord(context, url, word);
-                } else {
-                    //TODO Handle situation when word is incorrect
+                } else if (!url.equals("noCon")) {
+                    Crouton.makeText((android.app.Activity) context, context.getString(
+                            R.string.incorrectly_words), Style.INFO).show();
+                    List<Sounds> sounds = Sounds.find(Sounds.class, "name = ?", word);
+                    sounds.get(0).delete();
+                    arrayList.remove(position);
+                    rvAdapter.notifyItemRangeRemoved(position, 1);
                 }
             }
 

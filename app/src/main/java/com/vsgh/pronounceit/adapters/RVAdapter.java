@@ -1,5 +1,6 @@
 package com.vsgh.pronounceit.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -14,8 +15,10 @@ import android.widget.TextView;
 
 import com.vsgh.pronounceit.Constants;
 import com.vsgh.pronounceit.R;
+import com.vsgh.pronounceit.apihelpers.forvo.ForvoApi;
 import com.vsgh.pronounceit.customviews.SwipeDismissTouchListener;
 import com.vsgh.pronounceit.persistence.Sounds;
+import com.vsgh.pronounceit.utils.ConnChecker;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,19 +33,18 @@ import de.keyboardsurfer.android.widget.crouton.Style;
  * Created by Eren on 18.02.2015.
  */
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>
-        implements View.OnClickListener, TextToSpeech.OnInitListener {
+        implements View.OnClickListener {
 
     //    private static Random randy = new Random();
     // Hold the position of the expanded item
     private ArrayList<String> mDataset;
     private Context mContext;
-    private TextToSpeech mTTS;
+
     private MediaPlayer mediaPlayer;
 
-    public RVAdapter(Context context, ArrayList<String> myDataset, TextToSpeech mTTS) {
+    public RVAdapter(Context context, ArrayList<String> myDataset) {
         this.mDataset = myDataset;
         this.mContext = context;
-        this.mTTS = new TextToSpeech(mContext, this);
     }
 
     @Override
@@ -113,8 +115,17 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>
         List<Sounds> sounds = Sounds.find(Sounds.class, "name = ?",
                 mDataset.get(holder.getLayoutPosition()));
         if (!sounds.get(0).getDownloaded()) {
-            Crouton.makeText((android.app.Activity) mContext, "This card cannot be listened", Style.INFO).show();
-            return;
+            if (ConnChecker.isOnline(mContext)){
+                ForvoApi.downloadMp3Url(mContext, theString, RVAdapter.this,
+                        holder.getLayoutPosition(),mDataset);
+                Crouton.makeText((android.app.Activity) mContext,
+                        mContext.getString(R.string.click_me), Style.INFO).show();
+                return;
+            }
+            else {
+                Crouton.makeText((android.app.Activity) mContext, mContext.getString(R.string.interner_error), Style.INFO).show();
+                return;
+            }
         }
         mediaPlayer = new MediaPlayer();
         try {
@@ -130,22 +141,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mediaPlayer.start();
     }
-
-    @Override
-    public void onInit(int status) {
-        if (status == TextToSpeech.SUCCESS) {
-            int result = mTTS.setLanguage(Locale.ENGLISH);
-            //int result = mTTS.setLanguage(Locale.getDefault());
-
-            if (result == TextToSpeech.LANG_MISSING_DATA
-                    || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                Log.e("TTS", "Извините, этот язык не поддерживается");
-            }
-        } else {
-            Log.e("TTS", "Ошибка!");
-        }
-    }
-
     /**
      * Create a ViewHolder to represent your cell layout
      * and data element structure
