@@ -29,8 +29,8 @@ import com.github.gorbin.asne.vk.VkSocialNetwork;
 import com.vsgh.pronounceit.Constants;
 import com.vsgh.pronounceit.R;
 import com.vsgh.pronounceit.activity.base.BaseVsghActivity;
-import com.vsgh.pronounceit.apphelpers.SharedPrefsHelper;
 import com.vsgh.pronounceit.utils.ConnChecker;
+import com.vsgh.pronounceit.utils.SharedPrefsHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -151,10 +151,16 @@ public class StatisticsActivity extends BaseVsghActivity {
             super.onViewCreated(view, savedInstanceState);
 
             aQuery = ((BaseVsghActivity) getActivity()).getAq();
-            String userName = SharedPrefsHelper
-                    .readStringFromSP(getActivity(), Constants.USERNAME_PREFS, "");
-            if (!userName.equals("")) {
+            boolean loginStatus = SharedPrefsHelper.readBooleanFromSP(getActivity(), Constants.ONLINE_STATUS_PREFS, false);
+            if (loginStatus) {
+                String userName = SharedPrefsHelper
+                        .readStringFromSP(getActivity(), Constants.USERNAME_PREFS, "");
+                int color = SharedPrefsHelper
+                        .readIntFromSP(getActivity(), Constants.COLOR_PREFS, Constants.DEF_COLOR);
                 aQuery.id(R.id.name).text(userName);
+                aQuery.id(R.id.connect).backgroundColor(color);
+                aQuery.id(R.id.share).backgroundColor(color);
+                aQuery.id(R.id.share).enabled(true);
             }
             initSocialNetworks();
             aQuery.id(R.id.connect).clicked(new View.OnClickListener() {
@@ -167,21 +173,25 @@ public class StatisticsActivity extends BaseVsghActivity {
             aQuery.id(R.id.share).clicked(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (currentNetworkId != 0) {
-                        Toast.makeText(getActivity(), "POSTING", Toast.LENGTH_LONG).show();
-                        SocialNetwork socialNetwork = mSocialNetworkManager
-                                .getSocialNetwork(currentNetworkId);
-                        socialNetwork.requestPostMessage("I have new post from my app", new OnPostingCompleteListener() {
-                            @Override
-                            public void onPostSuccessfully(int i) {
-                                Toast.makeText(getActivity(), "OK from MSG", Toast.LENGTH_LONG).show();
-                            }
+                    if (ConnChecker.isOnline(getActivity())) {
+                        if (currentNetworkId != 0) {
+                            SocialNetwork socialNetwork = mSocialNetworkManager
+                                    .getSocialNetwork(currentNetworkId);
+                            socialNetwork.requestPostMessage("I have new post from my app", new OnPostingCompleteListener() {
+                                @Override
+                                public void onPostSuccessfully(int i) {
+                                    Toast.makeText(getActivity(), "OK from MSG", Toast.LENGTH_LONG).show();
+                                }
 
-                            @Override
-                            public void onError(int i, String s, String s2, Object o) {
-                                Toast.makeText(getActivity(), "ERROR from MSG", Toast.LENGTH_LONG).show();
-                            }
-                        });
+                                @Override
+                                public void onError(int i, String s, String s2, Object o) {
+                                    Toast.makeText(getActivity(), getActivity().getString(R.string.ext_error),
+                                            Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                    } else {
+                        Crouton.makeText(getActivity(), R.string.interner_error, Style.INFO).show();
                     }
                 }
 
@@ -204,7 +214,8 @@ public class StatisticsActivity extends BaseVsghActivity {
                             Toast.makeText(getActivity(), getActivity().getString(R.string.wrong_sid), Toast.LENGTH_LONG).show();
                         }
                     } else {
-                        Toast.makeText(getActivity(), "You've already logged " + socialNetwork.getID(),
+                        Toast.makeText(getActivity(),
+                                getActivity().getString(R.string.already_logged_error) + socialNetwork.getID(),
                                 Toast.LENGTH_LONG).show();
                     }
                 }
@@ -257,6 +268,8 @@ public class StatisticsActivity extends BaseVsghActivity {
                         });
             } else {
                 SharedPrefsHelper.writeStringToSP(getActivity(), Constants.USERNAME_PREFS, "");
+                SharedPrefsHelper.writeIntToSP(getActivity(), Constants.COLOR_PREFS, 0);
+                SharedPrefsHelper.writeBooleanToSP(getActivity(), Constants.ONLINE_STATUS_PREFS, false);
                 aQuery.id(R.id.connect).text(getActivity().getString(R.string.login))
                         .clicked(new View.OnClickListener() {
                             @Override
@@ -287,7 +300,6 @@ public class StatisticsActivity extends BaseVsghActivity {
         @Override
         public void onRequestSocialPersonSuccess(int networkId, SocialPerson socialPerson) {
             ((StatisticsActivity) getActivity()).hideProgress();
-            SharedPrefsHelper.writeStringToSP(getActivity(), Constants.USERNAME_PREFS, socialPerson.name);
             int defColor = 0;
             Resources resources = getActivity().getResources();
             switch (networkId) {
@@ -301,6 +313,9 @@ public class StatisticsActivity extends BaseVsghActivity {
                     defColor = resources.getColor(R.color.s_gp_color);
                     break;
             }
+            SharedPrefsHelper.writeStringToSP(getActivity(), Constants.USERNAME_PREFS, socialPerson.name);
+            SharedPrefsHelper.writeIntToSP(getActivity(), Constants.COLOR_PREFS, defColor);
+            SharedPrefsHelper.writeBooleanToSP(getActivity(), Constants.ONLINE_STATUS_PREFS, true);
             aQuery.id(R.id.name).text(socialPerson.name);
             final int finalDefColor = defColor;
             aQuery.id(R.id.userpic).image(socialPerson.avatarURL, true, true, 0, 0, new BitmapAjaxCallback() {

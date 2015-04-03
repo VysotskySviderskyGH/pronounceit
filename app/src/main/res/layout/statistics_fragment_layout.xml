@@ -86,13 +86,13 @@
                         android:text="@string/login" />
 
                     <Button
-                        android:enabled="false"
                         android:id="@+id/share"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="1dp"
                         android:layout_weight="1"
                         android:background="@android:color/white"
+                        android:enabled="false"
                         android:text="@string/share" />
                 </LinearLayout>
             </LinearLayout>

@@ -24,7 +24,7 @@
     <string name="already_exists">This card already exists</string>
     <string name="cannot_listened">This card cannot be listened</string>
     <string name="incorrectly_words">Incorrectly entered words</string>
-    <string name="click_me">Please click me againe</string>
+    <string name="click_me">Please click me again</string>
 
 
     <string name="hello_world">Hello world!</string>
@@ -56,5 +56,7 @@ We make your English better
     <string name="wrong_msg">Something went wrong</string>
     <string name="username">User</string>
     <string name="download_words">We are trying to download words</string>
+    <string name="ext_error">External error</string>
+    <string name="already_logged_error">"You've already logged "</string>
 
 </resources>

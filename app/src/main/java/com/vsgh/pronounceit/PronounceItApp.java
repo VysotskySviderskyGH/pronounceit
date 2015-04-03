@@ -8,9 +8,9 @@ import android.graphics.Typeface;
 import com.orm.SugarApp;
 import com.vsgh.pronounceit.activity.HelpActivity;
 import com.vsgh.pronounceit.apihelpers.gatodata.GatodataApi;
-import com.vsgh.pronounceit.apphelpers.SharedPrefsHelper;
 import com.vsgh.pronounceit.singletones.FontContainer;
 import com.vsgh.pronounceit.utils.ConnChecker;
+import com.vsgh.pronounceit.utils.SharedPrefsHelper;
 
 /**
  * Created by Slawa on 2/1/2015.
@@ -41,11 +41,8 @@ public class PronounceItApp extends SugarApp {
 
     private void downloadSentences() {
         if (ConnChecker.isOnline(this)) {
-            GatodataApi.downloadSentenceList(this,false);
-        } else {
-            //TODO Handle situation when user won't have internet
+            GatodataApi.downloadSentenceList(this, false);
         }
-
     }
 
     private void initFonts() {

@@ -1,13 +1,10 @@
 package com.vsgh.pronounceit.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Environment;
-import android.speech.tts.TextToSpeech;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -114,14 +110,13 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>
         List<Sounds> sounds = Sounds.find(Sounds.class, "name = ?",
                 mDataset.get(holder.getLayoutPosition()));
         if (!sounds.get(0).getDownloaded()) {
-            if (ConnChecker.isOnline(mContext)){
+            if (ConnChecker.isOnline(mContext)) {
                 ForvoApi.downloadMp3Url(mContext, theString, RVAdapter.this,
-                        holder.getLayoutPosition(),mDataset);
+                        holder.getLayoutPosition(), mDataset);
                 Crouton.makeText((android.app.Activity) mContext,
                         mContext.getString(R.string.click_me), Style.INFO).show();
                 return;
-            }
-            else {
+            } else {
                 Crouton.makeText((android.app.Activity) mContext, mContext.getString(R.string.interner_error), Style.INFO).show();
                 return;
             }
@@ -140,6 +135,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mediaPlayer.start();
     }
+
     /**
      * Create a ViewHolder to represent your cell layout
      * and data element structure

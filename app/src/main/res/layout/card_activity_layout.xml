@@ -11,12 +11,12 @@
         android:layout_weight="1" />
 
     <LinearLayout
-        android:gravity="center"
         android:id="@+id/myQRBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_gravity="center"
         android:background="@color/s_blue"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <ImageView
