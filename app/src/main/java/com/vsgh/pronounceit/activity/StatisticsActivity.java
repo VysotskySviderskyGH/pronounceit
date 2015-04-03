@@ -2,7 +2,6 @@ package com.vsgh.pronounceit.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -111,18 +110,12 @@ public class StatisticsActivity extends BaseVsghActivity {
             return inflater.inflate(R.layout.statistics_fragment_layout, container, false);
         }
 
-        @Override
-        public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-            super.onViewCreated(view, savedInstanceState);
-
-            aQuery = ((BaseVsghActivity) getActivity()).getAq();
-
+        private void initSocialNetworks() {
             ArrayList<String> fbScope = new ArrayList<>();
             fbScope.addAll(Arrays.asList("public_profile, email, user_friends, user_posts"));
 
             String VK_KEY = getActivity().getString(R.string.vk_app_id);
             String[] vkScope = {"photos", "status", "wall"};
-
 
             mSocialNetworkManager = (SocialNetworkManager) getFragmentManager()
                     .findFragmentByTag(SOCIAL_NETWORK_TAG);
@@ -151,6 +144,19 @@ public class StatisticsActivity extends BaseVsghActivity {
                     }
                 }
             }
+        }
+
+        @Override
+        public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+            super.onViewCreated(view, savedInstanceState);
+
+            aQuery = ((BaseVsghActivity) getActivity()).getAq();
+            String userName = SharedPrefsHelper
+                    .readStringFromSP(getActivity(), Constants.USERNAME_PREFS, "");
+            if (!userName.equals("")) {
+                aQuery.id(R.id.name).text(userName);
+            }
+            initSocialNetworks();
             aQuery.id(R.id.connect).clicked(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -180,12 +186,6 @@ public class StatisticsActivity extends BaseVsghActivity {
                 }
 
             });
-            String userName = SharedPrefsHelper.readStringFromSP(getActivity(),Constants.USERNAME_PREFS,
-                    "");
-            if(!userName.equals("")){
-                aQuery.id(R.id.name).text(userName);
-            }
-
         }
 
         @Override
@@ -228,7 +228,7 @@ public class StatisticsActivity extends BaseVsghActivity {
         public void onLoginSuccess(final int networkId) {
             ((StatisticsActivity) getActivity()).hideProgress();
             SocialNetwork socialNetwork = mSocialNetworkManager.getSocialNetwork(networkId);
-            if(networkId == GooglePlusSocialNetwork.ID
+            if (networkId == GooglePlusSocialNetwork.ID
                     && !ConnChecker.isOnline(getActivity())) {
                 socialNetwork.logout();
                 Crouton.makeText(getActivity(),
@@ -256,7 +256,7 @@ public class StatisticsActivity extends BaseVsghActivity {
                             }
                         });
             } else {
-                SharedPrefsHelper.writeStringToSP(getActivity(),Constants.PREFS_NAME,"");
+                SharedPrefsHelper.writeStringToSP(getActivity(), Constants.USERNAME_PREFS, "");
                 aQuery.id(R.id.connect).text(getActivity().getString(R.string.login))
                         .clicked(new View.OnClickListener() {
                             @Override
@@ -287,7 +287,7 @@ public class StatisticsActivity extends BaseVsghActivity {
         @Override
         public void onRequestSocialPersonSuccess(int networkId, SocialPerson socialPerson) {
             ((StatisticsActivity) getActivity()).hideProgress();
-            SharedPrefsHelper.writeStringToSP(getActivity(),Constants.PREFS_NAME,socialPerson.name);
+            SharedPrefsHelper.writeStringToSP(getActivity(), Constants.USERNAME_PREFS, socialPerson.name);
             int defColor = 0;
             Resources resources = getActivity().getResources();
             switch (networkId) {
