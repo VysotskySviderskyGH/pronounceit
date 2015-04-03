@@ -1,5 +1,6 @@
 package com.vsgh.pronounceit.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -14,8 +15,10 @@ import android.widget.TextView;
 
 import com.vsgh.pronounceit.Constants;
 import com.vsgh.pronounceit.R;
+import com.vsgh.pronounceit.apihelpers.forvo.ForvoApi;
 import com.vsgh.pronounceit.customviews.SwipeDismissTouchListener;
 import com.vsgh.pronounceit.persistence.Sounds;
+import com.vsgh.pronounceit.utils.ConnChecker;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,7 +41,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>
     private Context mContext;
     private MediaPlayer mediaPlayer;
 
-    public RVAdapter(Context context, ArrayList<String> myDataset, TextToSpeech mTTS) {
+    public RVAdapter(Context context, ArrayList<String> myDataset) {
         this.mDataset = myDataset;
         this.mContext = context;
     }
@@ -111,8 +114,17 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>
         List<Sounds> sounds = Sounds.find(Sounds.class, "name = ?",
                 mDataset.get(holder.getLayoutPosition()));
         if (!sounds.get(0).getDownloaded()) {
-            Crouton.makeText((android.app.Activity) mContext, "This card cannot be listened", Style.INFO).show();
-            return;
+            if (ConnChecker.isOnline(mContext)){
+                ForvoApi.downloadMp3Url(mContext, theString, RVAdapter.this,
+                        holder.getLayoutPosition(),mDataset);
+                Crouton.makeText((android.app.Activity) mContext,
+                        mContext.getString(R.string.click_me), Style.INFO).show();
+                return;
+            }
+            else {
+                Crouton.makeText((android.app.Activity) mContext, mContext.getString(R.string.interner_error), Style.INFO).show();
+                return;
+            }
         }
         mediaPlayer = new MediaPlayer();
         try {
@@ -128,7 +140,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mediaPlayer.start();
     }
-
     /**
      * Create a ViewHolder to represent your cell layout
      * and data element structure

@@ -23,6 +23,7 @@ import com.vsgh.pronounceit.apihelpers.forvo.ForvoApi;
 import com.vsgh.pronounceit.customviews.QRBarDecoration;
 import com.vsgh.pronounceit.persistence.Sounds;
 import com.vsgh.pronounceit.singletones.FontContainer;
+import com.vsgh.pronounceit.utils.ConnChecker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,6 @@ public class CardActivity extends BaseVsghActivity {
     private TextView tvQRBarTitle;
     private RVAdapter mAdapter;
     private ArrayList<String> myDataset;
-    private TextToSpeech mTTS;
     private int columnCount;
     private int qrBarHeight;
     private ImageView imageView;
@@ -96,7 +96,7 @@ public class CardActivity extends BaseVsghActivity {
         for (Sounds sound : sounds) {
             myDataset.add(sound.getName());
         }
-        mAdapter = new RVAdapter(this, myDataset, mTTS);
+        mAdapter = new RVAdapter(this, myDataset);
         mRecycler.setAdapter(mAdapter);
     }
 
@@ -105,7 +105,8 @@ public class CardActivity extends BaseVsghActivity {
         mAdapter.notifyItemInserted(position);
         Sounds sounds = new Sounds(item, false);
         sounds.save();
-        ForvoApi.downloadMp3Url(this, sounds.getName());
+        ForvoApi.downloadMp3Url(context, item, mAdapter, position, myDataset);
+
     }
 
     private void kostul() {
@@ -119,7 +120,7 @@ public class CardActivity extends BaseVsghActivity {
         input.setLayoutParams(lp);
         alertDialog.setView(input);
         alertDialog.setIcon(R.drawable.ic_launcher);
-        alertDialog.setPositiveButton("Add",
+        alertDialog.setPositiveButton("ADD",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         if (input.getText().toString().length() > 1) {
