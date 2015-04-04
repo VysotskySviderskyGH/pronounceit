@@ -151,4 +151,10 @@ public class CardActivity extends BaseVsghActivity {
                 });
         alertDialog.show();
     }
+
+    public void deleteAllCard(){
+        Sounds.deleteAll(Sounds.class);
+        myDataset.clear();
+        mAdapter.notifyDataSetChanged();
+    }
 }
