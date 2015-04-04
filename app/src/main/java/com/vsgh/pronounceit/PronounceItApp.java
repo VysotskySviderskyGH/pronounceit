@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 
+import com.crashlytics.android.Crashlytics;
 import com.orm.SugarApp;
 import com.vsgh.pronounceit.activity.HelpActivity;
 import com.vsgh.pronounceit.apihelpers.gatodata.GatodataApi;
 import com.vsgh.pronounceit.singletones.FontContainer;
 import com.vsgh.pronounceit.utils.ConnChecker;
 import com.vsgh.pronounceit.utils.SharedPrefsHelper;
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by Slawa on 2/1/2015.
@@ -24,6 +26,7 @@ public class PronounceItApp extends SugarApp {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         initFonts();
         settings = getSharedPreferences(Constants.PREFS_NAME,
                 Context.MODE_PRIVATE);

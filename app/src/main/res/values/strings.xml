@@ -54,7 +54,7 @@ We make your English better
     <string name="press_me">Press me to listen</string>
     <string name="share">Share</string>
     <string name="wrong_msg">Something went wrong</string>
-    <string name="username">User</string>
+    <string name="username">John Smith</string>
     <string name="download_words">We are trying to download words</string>
     <string name="ext_error">External error</string>
     <string name="already_logged_error">"You've already logged "</string>

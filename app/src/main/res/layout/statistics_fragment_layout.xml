@@ -108,7 +108,7 @@
             android:layout_margin="10dp"
             android:background="@color/s_asphalt"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_userpic"
+            android:src="@drawable/ic_smith"
             app:riv_border_color="@color/s_asphalt" />
     </RelativeLayout>
 
