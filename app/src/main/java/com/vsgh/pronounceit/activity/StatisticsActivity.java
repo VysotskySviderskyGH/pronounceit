@@ -30,6 +30,7 @@ import com.github.gorbin.asne.vk.VkSocialNetwork;
 import com.vsgh.pronounceit.Constants;
 import com.vsgh.pronounceit.R;
 import com.vsgh.pronounceit.activity.base.BaseVsghActivity;
+import com.vsgh.pronounceit.persistence.User;
 import com.vsgh.pronounceit.utils.ConnChecker;
 import com.vsgh.pronounceit.utils.SharedPrefsHelper;
 
@@ -301,6 +302,12 @@ public class StatisticsActivity extends BaseVsghActivity {
                                 currentNetworkId = 0;
                             }
                         });
+               /* String currentUser = SharedPrefsHelper.readStringFromSP(getActivity(),
+                        Constants.CURRENT_USER, "John Smith");
+                String newUser = SharedPrefsHelper.readStringFromSP(getActivity(),
+                        Constants.USERNAME_PREFS, "John Smith");
+                List<User> users = User.find(User.class,"username = ?", currentUser);
+                users.get(0).setUsername(newUser);*/
             } else {
                 aQuery.id(R.id.nameLine).backgroundColor(R.color.s_sky);
                 aQuery.id(R.id.connect).backgroundColor(Constants.DEF_COLOR_BTNS);
@@ -320,6 +327,10 @@ public class StatisticsActivity extends BaseVsghActivity {
                                         LOGIN_REQ_CODE);
                             }
                         });
+               /* User user = new User("John Smith",0,0);
+                user.save();
+                SharedPrefsHelper.writeStringToSP(getActivity(),
+                        Constants.CURRENT_USER, user.getUsername());*/
             }
             ((StatisticsActivity) getActivity()).hideProgress();
         }
