@@ -37,7 +37,7 @@ public class PronounceItApp extends SugarApp {
             User user = new User("John Smith",0,0);
             user.save();
             SharedPrefsHelper.writeStringToSP(this,
-                    Constants.CURRENT_USER, user.getUserName());
+                    Constants.CURRENT_USER, user.getUsername());
             downloadSentences();
             SharedPrefsHelper.writeBooleanToSP(settings,
                     Constants.FIRST_START, false);
