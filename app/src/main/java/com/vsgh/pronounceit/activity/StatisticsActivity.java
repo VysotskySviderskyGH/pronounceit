@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -32,6 +33,7 @@ import com.vsgh.pronounceit.activity.base.BaseVsghActivity;
 import com.vsgh.pronounceit.utils.ConnChecker;
 import com.vsgh.pronounceit.utils.SharedPrefsHelper;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -48,6 +50,7 @@ public class StatisticsActivity extends BaseVsghActivity {
     public static final String LOGIN_RESULT_KEY = "soc_id";
     public static final String SOCIAL_NETWORK_TAG = "SocialIntegrationMain.SOCIAL_NETWORK_TAG";
     protected ProgressDialog mProgressDialog;
+    public static final int NUM_OF_COLORS_PALETTE = 2;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -146,21 +149,47 @@ public class StatisticsActivity extends BaseVsghActivity {
             }
         }
 
+        private void prepareLastInformation() {
+            String userName = SharedPrefsHelper
+                    .readStringFromSP(getActivity(), Constants.USERNAME_PREFS, "");
+            final int color = SharedPrefsHelper
+                    .readIntFromSP(getActivity(), Constants.COLOR_PREFS, Constants.DEF_COLOR_BTNS);
+            String userpicUrl = SharedPrefsHelper.readStringFromSP(getActivity(), Constants.USERPIC_URL_PREFS, "");
+            int colorPalette = SharedPrefsHelper.readIntFromSP(getActivity(),
+                    Constants.PALETTE_COLOR_PREFS, Constants.DEF_COLOR_BACKGROUND);
+            aQuery.id(R.id.name).text(userName);
+            aQuery.id(R.id.connect).backgroundColor(color);
+            aQuery.id(R.id.share).backgroundColor(color);
+            aQuery.id(R.id.nameLine).backgroundColor(color);
+            if (!userpicUrl.equals("")) {
+                File userPic = aQuery.getCachedFile(userpicUrl);
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+                Bitmap userBmp = BitmapFactory.decodeFile(userPic.getAbsolutePath(), options);
+                aQuery.id(R.id.userpic).image(userBmp);
+                Palette.PaletteAsyncListener listener = new Palette.PaletteAsyncListener() {
+                    public void onGenerated(Palette palette) {
+                        aQuery.id(R.id.content)
+                                .backgroundColor(palette.getLightMutedColor(Constants.DEF_COLOR_BACKGROUND));
+                    }
+                };
+                Palette.generateAsync(userBmp, NUM_OF_COLORS_PALETTE, listener);
+            }
+            aQuery.id(R.id.content).backgroundColor(colorPalette);
+            aQuery.id(R.id.share).enabled(true);
+        }
+
         @Override
         public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
 
             aQuery = ((BaseVsghActivity) getActivity()).getAq();
-            boolean loginStatus = SharedPrefsHelper.readBooleanFromSP(getActivity(), Constants.ONLINE_STATUS_PREFS, false);
+            boolean loginStatus = SharedPrefsHelper.readBooleanFromSP(getActivity(),
+                    Constants.ONLINE_STATUS_PREFS, false);
             if (loginStatus) {
-                String userName = SharedPrefsHelper
-                        .readStringFromSP(getActivity(), Constants.USERNAME_PREFS, "");
-                int color = SharedPrefsHelper
-                        .readIntFromSP(getActivity(), Constants.COLOR_PREFS, Constants.DEF_COLOR);
-                aQuery.id(R.id.name).text(userName);
-                aQuery.id(R.id.connect).backgroundColor(color);
-                aQuery.id(R.id.share).backgroundColor(color);
-                aQuery.id(R.id.share).enabled(true);
+                int socId = SharedPrefsHelper.readIntFromSP(getActivity(),Constants.SOCID_PREFS,0);
+                prepareLastInformation();
+                setLoginState(true,socId);
             }
             initSocialNetworks();
             aQuery.id(R.id.connect).clicked(new View.OnClickListener() {
@@ -177,24 +206,31 @@ public class StatisticsActivity extends BaseVsghActivity {
                         if (currentNetworkId != 0) {
                             SocialNetwork socialNetwork = mSocialNetworkManager
                                     .getSocialNetwork(currentNetworkId);
-                            socialNetwork.requestPostMessage("I have new post from my app", new OnPostingCompleteListener() {
-                                @Override
-                                public void onPostSuccessfully(int i) {
-                                    Toast.makeText(getActivity(), "OK from MSG", Toast.LENGTH_LONG).show();
-                                }
+                            String message = "I have new post from my app";
+                            if (currentNetworkId == GooglePlusSocialNetwork.ID) {
+                                Bundle dialogParams = new Bundle();
+                                dialogParams.putString(SocialNetwork.BUNDLE_APP_NAME, getString(R.string.app_name));
+                                dialogParams.putString(SocialNetwork.BUNDLE_NAME, getString(R.string.app_name));
+                                dialogParams.putString(SocialNetwork.BUNDLE_MESSAGE, message);
+                            } else {
+                                socialNetwork.requestPostMessage(message, new OnPostingCompleteListener() {
+                                    @Override
+                                    public void onPostSuccessfully(int i) {
+                                        Toast.makeText(getActivity(), "OK from MSG", Toast.LENGTH_LONG).show();
+                                    }
+                                    @Override
+                                    public void onError(int i, String s, String s2, Object o) {
+                                        Toast.makeText(getActivity(), getActivity().getString(R.string.ext_error),
+                                                Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            }
 
-                                @Override
-                                public void onError(int i, String s, String s2, Object o) {
-                                    Toast.makeText(getActivity(), getActivity().getString(R.string.ext_error),
-                                            Toast.LENGTH_LONG).show();
-                                }
-                            });
                         }
                     } else {
                         Crouton.makeText(getActivity(), R.string.interner_error, Style.INFO).show();
                     }
                 }
-
             });
         }
 
@@ -230,7 +266,6 @@ public class StatisticsActivity extends BaseVsghActivity {
                     setLoginState(true, socialNetwork.getID());
                     socialNetwork.setOnRequestCurrentPersonCompleteListener(this);
                     socialNetwork.requestCurrentPerson();
-                    ((StatisticsActivity) getActivity()).showProgress(getString(R.string.loading_info));
                 }
             }
         }
@@ -267,9 +302,15 @@ public class StatisticsActivity extends BaseVsghActivity {
                             }
                         });
             } else {
+                aQuery.id(R.id.nameLine).backgroundColor(R.color.s_sky);
+                aQuery.id(R.id.connect).backgroundColor(Constants.DEF_COLOR_BTNS);
+                aQuery.id(R.id.share).backgroundColor(Constants.DEF_COLOR_BTNS);
+                aQuery.id(R.id.name).text(getText(R.string.username));
+                aQuery.id(R.id.userpic).image(getResources().getDrawable(R.drawable.ic_smith));
                 SharedPrefsHelper.writeStringToSP(getActivity(), Constants.USERNAME_PREFS, "");
                 SharedPrefsHelper.writeIntToSP(getActivity(), Constants.COLOR_PREFS, 0);
                 SharedPrefsHelper.writeBooleanToSP(getActivity(), Constants.ONLINE_STATUS_PREFS, false);
+                SharedPrefsHelper.writeIntToSP(getActivity(), Constants.SOCID_PREFS, 0);
                 aQuery.id(R.id.connect).text(getActivity().getString(R.string.login))
                         .clicked(new View.OnClickListener() {
                             @Override
@@ -287,8 +328,15 @@ public class StatisticsActivity extends BaseVsghActivity {
         public void onError(int networkId, String requestID, String errorMessage,
                             Object data) {
             ((StatisticsActivity) getActivity()).hideProgress();
-            Crouton.makeText(getActivity(),
-                    getActivity().getString(R.string.wrong_msg), Style.INFO).show();
+            if (ConnChecker.isOnline(getActivity())) {
+                Crouton.makeText(getActivity(),
+                        getActivity().getString(R.string.wrong_msg), Style.INFO).show();
+            }
+        }
+
+        @Override
+        public void onResume() {
+            super.onResume();
         }
 
         @Override
@@ -315,24 +363,26 @@ public class StatisticsActivity extends BaseVsghActivity {
             }
             SharedPrefsHelper.writeStringToSP(getActivity(), Constants.USERNAME_PREFS, socialPerson.name);
             SharedPrefsHelper.writeIntToSP(getActivity(), Constants.COLOR_PREFS, defColor);
+            SharedPrefsHelper.writeIntToSP(getActivity(), Constants.SOCID_PREFS, networkId);
             SharedPrefsHelper.writeBooleanToSP(getActivity(), Constants.ONLINE_STATUS_PREFS, true);
+            SharedPrefsHelper.writeStringToSP(getActivity(), Constants.USERPIC_URL_PREFS, socialPerson.avatarURL);
             aQuery.id(R.id.name).text(socialPerson.name);
-            final int finalDefColor = defColor;
+            aQuery.id(R.id.nameLine).backgroundColor(defColor);
+            aQuery.id(R.id.connect).backgroundColor(defColor);
+            aQuery.id(R.id.share).backgroundColor(defColor);
             aQuery.id(R.id.userpic).image(socialPerson.avatarURL, true, true, 0, 0, new BitmapAjaxCallback() {
                 @Override
                 public void callback(String url, ImageView iv, final Bitmap bm, AjaxStatus status) {
-                    Palette.PaletteAsyncListener listener = new Palette.PaletteAsyncListener() {
+                    Palette.generateAsync(bm, new Palette.PaletteAsyncListener() {
                         public void onGenerated(Palette palette) {
                             aQuery.id(R.id.userpic).image(bm);
-                            aQuery.id(R.id.nameLine)
-                                    .backgroundColor(palette.getLightMutedColor(finalDefColor));
-                            aQuery.id(R.id.connect).backgroundColor(finalDefColor);
-                            aQuery.id(R.id.share).backgroundColor(finalDefColor);
+                            int colorPalette = palette.getLightMutedColor(Constants.DEF_COLOR_BACKGROUND);
+                            aQuery.id(R.id.content)
+                                    .backgroundColor(colorPalette);
+                            SharedPrefsHelper.writeIntToSP(getActivity(), Constants.PALETTE_COLOR_PREFS, colorPalette);
                             ((StatisticsActivity) getActivity()).hideProgress();
                         }
-                    };
-                    final int NUM_OF_COLORS = 2;
-                    Palette.generateAsync(bm, NUM_OF_COLORS, listener);
+                    });
                 }
             });
         }
