@@ -8,6 +8,7 @@ import com.vsgh.pronounceit.R;
 import com.vsgh.pronounceit.activity.base.BaseVsghActivity;
 import com.vsgh.pronounceit.apihelpers.gatodata.GatodataApi;
 import com.vsgh.pronounceit.persistence.Sentence;
+import com.vsgh.pronounceit.utils.Cleaner;
 import com.vsgh.pronounceit.utils.ConnChecker;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
