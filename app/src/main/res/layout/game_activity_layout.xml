@@ -48,19 +48,19 @@
         <com.vsgh.pronounceit.customviews.CustomButton
             android:id="@+id/btn_skip"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/gamebtn_height"
             android:layout_margin="10dp"
             android:text="@string/skip_msg"
-            android:textSize="16sp"
+            android:textSize="@dimen/gamebtn_text_size"
             custom:cv_background="@drawable/custom_button_shape" />
 
         <com.vsgh.pronounceit.customviews.CustomButton
             android:id="@+id/btn_listen"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/gamebtn_height"
             android:layout_margin="10dp"
             android:text="@string/listen_msg"
-            android:textSize="16sp"
+            android:textSize="@dimen/gamebtn_text_size"
             custom:cv_background="@drawable/custom_button_shape" />
     </LinearLayout>
 
@@ -70,8 +70,8 @@
 
         <at.markushi.ui.CircleButton
             android:id="@+id/btn_get_voice"
-            android:layout_width="220dip"
-            android:layout_height="220dip"
+            android:layout_width="@dimen/micbtn_size"
+            android:layout_height="@dimen/micbtn_size"
             android:src="@drawable/ic_mic"
             app:cb_color="@color/s_blue"
             app:cb_pressedRingWidth="8dip" />

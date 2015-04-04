@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 
+
 import com.crashlytics.android.Crashlytics;
 import com.orm.SugarApp;
 import com.vsgh.pronounceit.activity.HelpActivity;

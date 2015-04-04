@@ -221,6 +221,17 @@ public class StatisticsActivity extends BaseVsghActivity {
                                 dialogParams.putString(SocialNetwork.BUNDLE_APP_NAME, getString(R.string.app_name));
                                 dialogParams.putString(SocialNetwork.BUNDLE_NAME, getString(R.string.app_name));
                                 dialogParams.putString(SocialNetwork.BUNDLE_MESSAGE, message);
+                                socialNetwork.requestPostDialog(dialogParams, new OnPostingCompleteListener() {
+                                    @Override
+                                    public void onPostSuccessfully(int i) {
+
+                                    }
+
+                                    @Override
+                                    public void onError(int i, String s, String s2, Object o) {
+                                        Toast.makeText(getActivity(), "OK from MSG", Toast.LENGTH_LONG).show();
+                                    }
+                                });
                             } else {
                                 socialNetwork.requestPostMessage(message, new OnPostingCompleteListener() {
                                     @Override
@@ -235,7 +246,6 @@ public class StatisticsActivity extends BaseVsghActivity {
                                     }
                                 });
                             }
-
                         }
                     } else {
                         Crouton.makeText(getActivity(), R.string.interner_error, Style.INFO).show();
@@ -383,7 +393,8 @@ public class StatisticsActivity extends BaseVsghActivity {
             ((StatisticsActivity) getActivity()).hideProgress();
             if (ConnChecker.isOnline(getActivity())) {
                 Crouton.makeText(getActivity(),
-                        getActivity().getString(R.string.wrong_msg), Style.INFO).show();
+                        getActivity().getString(R.string.wrong_msg) + ": " + errorMessage,
+                        Style.INFO).show();
             }
         }
 
