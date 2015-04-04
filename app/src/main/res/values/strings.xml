@@ -59,4 +59,12 @@ We make your English better
     <string name="ext_error">External error</string>
     <string name="already_logged_error">"You've already logged "</string>
 
+    <string name="app">Circular Counter</string>
+
+    <string-array name="colors">
+        <item>#004B4B</item>
+        <item>#DE9C59</item>
+        <item>#ffffff</item>
+    </string-array>
+
 </resources>

@@ -60,7 +60,6 @@ public class GameHandler {
         SentencesContainer.sentenceList = Sentence.find(Sentence.class, "listen = ?", "0");
         currentSentence = SentencesContainer
                 .sentenceList.get(random.nextInt(SentencesContainer.sentenceList.size() - 1));
-        currentSentence.setListen(true);
     }
 
     private String cleanString(String string) {
@@ -81,16 +80,20 @@ public class GameHandler {
         currentUser = SharedPrefsHelper.readStringFromSP(context,
                 Constants.CURRENT_USER, "John Smith");
         List<User> users = User.find(User.class, "username = ?", currentUser);
-        int success = users.get(0).getSuccess();
-        users.get(0).setSuccess(success++);
+        int success = users.get(0).getSuccess()+1;
+        users.get(0).setSuccess(success);
+        users.get(0).save();
+        currentSentence.setListen(true);
+        currentSentence.save();
     }
 
     private void handleUnsuccess() {
         currentUser = SharedPrefsHelper.readStringFromSP(context,
                 Constants.CURRENT_USER, "John Smith");
         List<User> users = User.find(User.class, "username = ?", currentUser);
-        int unsuccessful = users.get(0).getUnsuccessful();
-        users.get(0).setUnsuccessful(unsuccessful++);
+        int unsuccessful = users.get(0).getUnsuccessful()+1;
+        users.get(0).setUnsuccessful(unsuccessful);
+        users.get(0).save();
     }
 
     public void sendResultToHandler(String result) {

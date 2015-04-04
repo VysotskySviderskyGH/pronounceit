@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.graphics.Palette;
@@ -31,6 +33,7 @@ import com.vsgh.pronounceit.Constants;
 import com.vsgh.pronounceit.R;
 import com.vsgh.pronounceit.activity.base.BaseVsghActivity;
 import com.vsgh.pronounceit.persistence.User;
+import com.vsgh.pronounceit.utils.CircularCounter;
 import com.vsgh.pronounceit.utils.ConnChecker;
 import com.vsgh.pronounceit.utils.SharedPrefsHelper;
 
@@ -52,6 +55,7 @@ public class StatisticsActivity extends BaseVsghActivity {
     public static final String SOCIAL_NETWORK_TAG = "SocialIntegrationMain.SOCIAL_NETWORK_TAG";
     protected ProgressDialog mProgressDialog;
     public static final int NUM_OF_COLORS_PALETTE = 2;
+    ;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -104,6 +108,10 @@ public class StatisticsActivity extends BaseVsghActivity {
         private AQuery aQuery;
         private SocialNetworkManager mSocialNetworkManager;
         private int currentNetworkId;
+        private CircularCounter meter;
+        private String[] colors;
+        private Handler handler;
+        private Runnable r;
 
         public StatisticsFragment() {
         }
@@ -188,9 +196,9 @@ public class StatisticsActivity extends BaseVsghActivity {
             boolean loginStatus = SharedPrefsHelper.readBooleanFromSP(getActivity(),
                     Constants.ONLINE_STATUS_PREFS, false);
             if (loginStatus) {
-                int socId = SharedPrefsHelper.readIntFromSP(getActivity(),Constants.SOCID_PREFS,0);
+                int socId = SharedPrefsHelper.readIntFromSP(getActivity(), Constants.SOCID_PREFS, 0);
                 prepareLastInformation();
-                setLoginState(true,socId);
+                setLoginState(true, socId);
             }
             initSocialNetworks();
             aQuery.id(R.id.connect).clicked(new View.OnClickListener() {
@@ -219,6 +227,7 @@ public class StatisticsActivity extends BaseVsghActivity {
                                     public void onPostSuccessfully(int i) {
                                         Toast.makeText(getActivity(), "OK from MSG", Toast.LENGTH_LONG).show();
                                     }
+
                                     @Override
                                     public void onError(int i, String s, String s2, Object o) {
                                         Toast.makeText(getActivity(), getActivity().getString(R.string.ext_error),
@@ -233,6 +242,39 @@ public class StatisticsActivity extends BaseVsghActivity {
                     }
                 }
             });
+
+            colors = getResources().getStringArray(R.array.colors);
+            meter = (CircularCounter) getActivity().findViewById(R.id.meter);
+            meter.setFirstWidth(getResources().getDimension(R.dimen.first))
+                    .setFirstColor(Color.parseColor(colors[0]))
+
+                    .setSecondWidth(getResources().getDimension(R.dimen.second))
+                    .setSecondColor(Color.parseColor(colors[1]))
+
+                    .setThirdWidth(getResources().getDimension(R.dimen.third))
+                    .setThirdColor(Color.parseColor(colors[2]))
+
+                    .setBackgroundColor(-14606047);
+            String currentUser = SharedPrefsHelper.readStringFromSP(getActivity(),
+                    Constants.CURRENT_USER,"John Smith");
+            List<User> users = User.find(User.class, "username = ?", currentUser);
+            final int currentResult = Math.round(users.get(0).getSuccess() * 100 / 563);
+            handler = new Handler();
+            r = new Runnable() {
+                int currV = 0;
+                boolean go = true;
+
+                public void run() {
+                    if (currV == currentResult && go){
+                        go = false;
+                    }
+                    if (go){
+                        currV++;
+                    }
+                    meter.setValues(currV, currV * 2, currV * 3);
+                    handler.postDelayed(this, 50);
+                }
+            };
         }
 
         @Override
@@ -348,6 +390,13 @@ public class StatisticsActivity extends BaseVsghActivity {
         @Override
         public void onResume() {
             super.onResume();
+            handler.postDelayed(r, 500);
+        }
+
+        @Override
+        public void onPause() {
+            super.onPause();
+            handler.removeCallbacks(r);
         }
 
         @Override
