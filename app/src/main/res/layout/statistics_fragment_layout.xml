@@ -66,6 +66,19 @@
                     android:layout_height="match_parent"
                     android:layout_weight="2">
 
+                    <com.vsgh.pronounceit.utils.CircularCounter
+                        xmlns:meter="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/meter"
+                        android:layout_width="300dp"
+                        android:layout_height="300dp"
+                        android:padding="5dp"
+                        meter:range="100"
+                        meter:textSize="100sp"
+                        meter:textColor="#ffffff"
+                        meter:metricSize="20sp"
+                        meter:metricText="metric"
+                        />
+
                 </LinearLayout>
 
                 <LinearLayout
