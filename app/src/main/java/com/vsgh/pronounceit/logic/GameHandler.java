@@ -80,7 +80,7 @@ public class GameHandler {
     private void handleSuccess() {
         currentUser = SharedPrefsHelper.readStringFromSP(context,
                 Constants.CURRENT_USER, "John Smith");
-        List<User> users = User.find(User.class, "userName = ?", currentUser);
+        List<User> users = User.find(User.class, "username = ?", currentUser);
         int success = users.get(0).getSuccess();
         users.get(0).setSuccess(success++);
     }
@@ -88,7 +88,7 @@ public class GameHandler {
     private void handleUnsuccess() {
         currentUser = SharedPrefsHelper.readStringFromSP(context,
                 Constants.CURRENT_USER, "John Smith");
-        List<User> users = User.find(User.class, "userName = ?", currentUser);
+        List<User> users = User.find(User.class, "username = ?", currentUser);
         int unsuccessful = users.get(0).getUnsuccessful();
         users.get(0).setUnsuccessful(unsuccessful++);
     }

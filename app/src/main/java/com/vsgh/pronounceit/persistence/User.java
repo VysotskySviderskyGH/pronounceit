@@ -41,5 +41,4 @@ public class User extends SugarRecord<User> {
     public void setUsername(String username) {
         this.username = username;
     }
-
 }
