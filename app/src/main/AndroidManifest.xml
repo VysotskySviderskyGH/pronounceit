@@ -48,7 +48,6 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -72,10 +71,10 @@
             android:name=".activity.LoginButtonsActivity"
             android:label="@string/title_activity_login_buttons"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Transparent"></activity>
+            android:theme="@style/Theme.Transparent"/>
         <activity
             android:name=".activity.AboutActivity"
-            android:label="@string/title_activity_about"></activity>
+            android:label="@string/title_activity_about"/>
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="101a26e000acf7276b3cf4cd68ad71013b3d61a2" />

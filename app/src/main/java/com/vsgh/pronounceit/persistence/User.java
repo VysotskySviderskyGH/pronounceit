@@ -6,15 +6,15 @@ import com.orm.SugarRecord;
  * Created by Eren on 04.04.2015.
  */
 public class User extends SugarRecord<User> {
-    private String userName;
+    private String username;
     private int success;
     private int unsuccessful;
 
     public User(){}
 
-    public User(String userName, int success, int unsuccessful) {
+    public User(String username, int success, int unsuccessful) {
         this.success = success;
-        this.userName = userName;
+        this.username = username;
         this.unsuccessful = unsuccessful;
     }
 
@@ -34,12 +34,12 @@ public class User extends SugarRecord<User> {
         this.success = success;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
 }
