@@ -1,5 +1,6 @@
 package com.vsgh.pronounceit.activity;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 
@@ -17,6 +18,8 @@ import de.keyboardsurfer.android.widget.crouton.Style;
  */
 public class MainActivity extends BaseVsghActivity {
 
+    private ProgressDialog mProgressDialog;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +33,7 @@ public class MainActivity extends BaseVsghActivity {
             public void onClick(View v) {
                 if (Sentence.listAll(Sentence.class).isEmpty()) {
                     if (ConnChecker.isOnline(MainActivity.this)) {
-                        Crouton.makeText(MainActivity.this, getString(R.string.download_words), Style.INFO).show();
+                        showProgress(getString(R.string.download_words));
                         GatodataApi.downloadSentenceList(MainActivity.this, true);
                     } else {
                         Crouton.makeText(MainActivity.this, getString(R.string.interner_error), Style.INFO).show();
@@ -58,6 +61,22 @@ public class MainActivity extends BaseVsghActivity {
                 startActivityWithoutParams(HelpActivity.class);
             }
         });
+    }
+
+    protected void showProgress(String message) {
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mProgressDialog.setMessage(message);
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.setCanceledOnTouchOutside(false);
+        mProgressDialog.show();
+    }
+
+    public void hideProgress() {
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+        }
     }
 
     @Override

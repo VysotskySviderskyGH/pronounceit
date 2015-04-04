@@ -1,9 +1,7 @@
 package com.vsgh.pronounceit.apihelpers.forvo;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
-
 
 import com.vsgh.pronounceit.R;
 import com.vsgh.pronounceit.adapters.RVAdapter;
@@ -39,14 +37,14 @@ public class ForvoApi {
             protected String doInBackground(String... params) {
                 String mp3url = "";
                 try {
-                    if(ConnChecker.isOnline(context)){
+                    if (ConnChecker.isOnline(context)) {
                         String json = downloadJSON(new URL(params[0]));
                         mp3url = getDirectUrl(json);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                if(!ConnChecker.isOnline(context)){
+                if (!ConnChecker.isOnline(context)) {
                     mp3url = "noCon";
                 }
                 return mp3url;

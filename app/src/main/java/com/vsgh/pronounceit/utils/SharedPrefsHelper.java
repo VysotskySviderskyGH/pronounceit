@@ -1,4 +1,4 @@
-package com.vsgh.pronounceit.apphelpers;
+package com.vsgh.pronounceit.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -40,10 +40,30 @@ public class SharedPrefsHelper {
         editor.apply();
     }
 
-    public static @NonNull String readStringFromSP(Context paramContext,
-                                                   final String key, final String defValue) {
+    public static
+    @NonNull
+    String readStringFromSP(Context paramContext,
+                            final String key, final String defValue) {
         SharedPreferences sharedPreferences = paramContext
                 .getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
-        return sharedPreferences.getString(key,defValue);
+        return sharedPreferences.getString(key, defValue);
+    }
+
+    public static
+    @NonNull
+    Integer readIntFromSP(Context paramContext,
+                          final String key, final int defValue) {
+        SharedPreferences sharedPreferences = paramContext
+                .getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(key, defValue);
+    }
+
+    public static
+    @NonNull
+    Boolean readBooleanFromSP(Context paramContext,
+                              final String key, final boolean defValue) {
+        SharedPreferences sharedPreferences = paramContext
+                .getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(key, defValue);
     }
 }

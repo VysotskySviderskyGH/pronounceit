@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 
+import com.crashlytics.android.Crashlytics;
 import com.orm.SugarApp;
 import com.vsgh.pronounceit.activity.HelpActivity;
 import com.vsgh.pronounceit.apihelpers.gatodata.GatodataApi;
-import com.vsgh.pronounceit.apphelpers.SharedPrefsHelper;
+import com.vsgh.pronounceit.persistence.User;
 import com.vsgh.pronounceit.singletones.FontContainer;
 import com.vsgh.pronounceit.utils.ConnChecker;
+import com.vsgh.pronounceit.utils.SharedPrefsHelper;
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by Slawa on 2/1/2015.
@@ -24,12 +27,17 @@ public class PronounceItApp extends SugarApp {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         initFonts();
         settings = getSharedPreferences(Constants.PREFS_NAME,
                 Context.MODE_PRIVATE);
         boolean firstStart = settings.getBoolean(
                 Constants.FIRST_START, true);
         if (firstStart) {
+            User user = new User("John Smith",0,0);
+            user.save();
+            SharedPrefsHelper.writeStringToSP(this,
+                    Constants.CURRENT_USER, user.getUserName());
             downloadSentences();
             SharedPrefsHelper.writeBooleanToSP(settings,
                     Constants.FIRST_START, false);
@@ -41,11 +49,8 @@ public class PronounceItApp extends SugarApp {
 
     private void downloadSentences() {
         if (ConnChecker.isOnline(this)) {
-            GatodataApi.downloadSentenceList(this,false);
-        } else {
-            //TODO Handle situation when user won't have internet
+            GatodataApi.downloadSentenceList(this, false);
         }
-
     }
 
     private void initFonts() {

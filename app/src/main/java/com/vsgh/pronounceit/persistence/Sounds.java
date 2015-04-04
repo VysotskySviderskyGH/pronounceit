@@ -6,8 +6,8 @@ import com.orm.SugarRecord;
  * Created by Eren on 16.03.2015.
  */
 public class Sounds extends SugarRecord<Sounds> {
-    String name;
-    Boolean downloaded;
+    private String name;
+    private Boolean downloaded;
 
     public Sounds() {
     }

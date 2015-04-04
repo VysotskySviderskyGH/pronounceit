@@ -2,6 +2,8 @@ package com.vsgh.pronounceit.persistence;
 
 import com.orm.SugarRecord;
 
+import java.util.List;
+
 /**
  * Created by Slawa on 3/12/2015.
  */

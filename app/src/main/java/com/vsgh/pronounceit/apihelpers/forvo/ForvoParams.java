@@ -53,7 +53,8 @@ public class ForvoParams {
         this.put(ACTION, "word-pronunciations");
         this.put(WORD, word);
         this.put(LANGUAGE, "en");
-        this.put(SEX, "f");
+        //NEXT PARAM MUST BE IGNORED BECAUSE SOME WORDS HAVE NOT BEEN PRONOUNCED BY WOMEN
+        //this.put(SEX, "f");
         this.put(LIMIT, "1");
         return getParamsString();
     }

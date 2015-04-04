@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 
 import com.vsgh.pronounceit.activity.GameActivity;
+import com.vsgh.pronounceit.activity.MainActivity;
 import com.vsgh.pronounceit.persistence.Sentence;
 
 import org.json.JSONArray;
@@ -80,8 +81,9 @@ public class GatodataApi {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                if(isFromMenu) {
-                    context.startActivity(new Intent(context,GameActivity.class));
+                if (isFromMenu) {
+                    ((MainActivity) context).hideProgress();
+                    context.startActivity(new Intent(context, GameActivity.class));
                 }
             }
 
