@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -32,8 +31,9 @@ import com.github.gorbin.asne.vk.VkSocialNetwork;
 import com.vsgh.pronounceit.Constants;
 import com.vsgh.pronounceit.R;
 import com.vsgh.pronounceit.activity.base.BaseVsghActivity;
+import com.vsgh.pronounceit.customviews.CircularCounter;
+import com.vsgh.pronounceit.persistence.Sentence;
 import com.vsgh.pronounceit.persistence.User;
-import com.vsgh.pronounceit.utils.CircularCounter;
 import com.vsgh.pronounceit.utils.ConnChecker;
 import com.vsgh.pronounceit.utils.SharedPrefsHelper;
 
@@ -215,7 +215,12 @@ public class StatisticsActivity extends BaseVsghActivity {
                         if (currentNetworkId != 0) {
                             SocialNetwork socialNetwork = mSocialNetworkManager
                                     .getSocialNetwork(currentNetworkId);
-                            String message = "I have new post from my app";
+                            String currentUser = SharedPrefsHelper.readStringFromSP(getActivity(),
+                                    Constants.CURRENT_USER, "John Smith");
+                            List<User> users = User.find(User.class, "username = ?", currentUser);
+                            final int result = Math.round(users.get(0).getSuccess() * 100 / 563);
+                            String message = getActivity().getString(R.string.firstpart) + result +
+                                    getActivity().getString(R.string.secondpart);
                             if (currentNetworkId == GooglePlusSocialNetwork.ID) {
                                 Bundle dialogParams = new Bundle();
                                 dialogParams.putString(SocialNetwork.BUNDLE_APP_NAME, getString(R.string.app_name));
@@ -224,19 +229,22 @@ public class StatisticsActivity extends BaseVsghActivity {
                                 socialNetwork.requestPostDialog(dialogParams, new OnPostingCompleteListener() {
                                     @Override
                                     public void onPostSuccessfully(int i) {
-
+                                        Toast.makeText(getActivity(),
+                                                getActivity().getString(R.string.success_msg), Toast.LENGTH_LONG).show();
                                     }
 
                                     @Override
                                     public void onError(int i, String s, String s2, Object o) {
-                                        Toast.makeText(getActivity(), "OK from MSG", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getActivity(), getActivity().getString(R.string.ext_error),
+                                                Toast.LENGTH_LONG).show();
                                     }
                                 });
                             } else {
                                 socialNetwork.requestPostMessage(message, new OnPostingCompleteListener() {
                                     @Override
                                     public void onPostSuccessfully(int i) {
-                                        Toast.makeText(getActivity(), "OK from MSG", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getActivity(),
+                                                getActivity().getString(R.string.success_msg), Toast.LENGTH_LONG).show();
                                     }
 
                                     @Override
@@ -252,21 +260,20 @@ public class StatisticsActivity extends BaseVsghActivity {
                     }
                 }
             });
-
-            colors = getResources().getStringArray(R.array.colors);
+            Resources resources = getResources();
             meter = (CircularCounter) getActivity().findViewById(R.id.meter);
             meter.setFirstWidth(getResources().getDimension(R.dimen.first))
-                    .setFirstColor(Color.parseColor(colors[0]))
+                    .setFirstColor(resources.getColor(R.color.s_blue))
 
                     .setSecondWidth(getResources().getDimension(R.dimen.second))
-                    .setSecondColor(Color.parseColor(colors[1]))
+                    .setSecondColor(resources.getColor(R.color.s_asphalt))
 
                     .setThirdWidth(getResources().getDimension(R.dimen.third))
-                    .setThirdColor(Color.parseColor(colors[2]))
+                    .setThirdColor(resources.getColor(R.color.s_green))
 
-                    .setBackgroundColor(-14606047);
+                    .setBackgroundColor(resources.getColor(R.color.s_white));
             String currentUser = SharedPrefsHelper.readStringFromSP(getActivity(),
-                    Constants.CURRENT_USER,"John Smith");
+                    Constants.CURRENT_USER, "John Smith");
             List<User> users = User.find(User.class, "username = ?", currentUser);
             final int currentResult = Math.round(users.get(0).getSuccess() * 100 / 563);
             handler = new Handler();
@@ -275,16 +282,22 @@ public class StatisticsActivity extends BaseVsghActivity {
                 boolean go = true;
 
                 public void run() {
-                    if (currV == currentResult && go){
+                    if (currV == currentResult && go) {
                         go = false;
                     }
-                    if (go){
+                    if (go) {
                         currV++;
                     }
                     meter.setValues(currV, currV * 2, currV * 3);
                     handler.postDelayed(this, 50);
                 }
             };
+            int allTasksCount = Sentence.listAll(Sentence.class).size();
+            int successCount = users.get(0).getSuccess();
+            int allDoneCoun = successCount + users.get(0).getUnsuccessful();
+            aQuery.id(R.id.tv_all).text(allTasksCount + "");
+            aQuery.id(R.id.tv_correct).text(successCount + "");
+            aQuery.id(R.id.tv_done).text(allDoneCoun + "");
         }
 
         @Override

@@ -22,8 +22,8 @@ import java.net.URL;
  * Created by Slawa on 3/12/2015.
  */
 public class GatodataApi {
-    public static final String JSON_URL = "http://gatodata.com/pro/services/practices.php";
-    public static final String SOUNDS_BASE_URL = "http://www.gatodata.com/pro/meodia/audio/";
+    public static final String JSON_URL = "http://pronounceit.vysotsky.me/pitdocs/filemap.php";
+    public static final String SOUNDS_BASE_URL = "http://pronounceit.vysotsky.me/pitdocs/audio/";
     public static final String ID_PARAM = "id";
     public static final String TEXT_PARAM = "text";
     public static final String NAME_PARAM = "audio_link";

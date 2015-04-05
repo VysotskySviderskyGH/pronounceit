@@ -1,4 +1,4 @@
-package com.vsgh.pronounceit.utils;
+package com.vsgh.pronounceit.customviews;
 
 
 import android.annotation.SuppressLint;
