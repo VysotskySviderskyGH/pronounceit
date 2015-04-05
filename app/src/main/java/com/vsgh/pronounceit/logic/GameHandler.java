@@ -13,9 +13,12 @@ import android.view.View;
 import com.androidquery.AQuery;
 import com.vsgh.pronounceit.Constants;
 import com.vsgh.pronounceit.R;
+import com.vsgh.pronounceit.activity.CardActivity;
 import com.vsgh.pronounceit.activity.base.BaseVsghActivity;
+import com.vsgh.pronounceit.apihelpers.forvo.ForvoApi;
 import com.vsgh.pronounceit.apihelpers.gatodata.GatodataApi;
 import com.vsgh.pronounceit.persistence.Sentence;
+import com.vsgh.pronounceit.persistence.Sounds;
 import com.vsgh.pronounceit.persistence.User;
 import com.vsgh.pronounceit.singletones.SentencesContainer;
 import com.vsgh.pronounceit.utils.SharedPrefsHelper;
@@ -167,7 +170,14 @@ public class GameHandler {
     }
 
     private Dialog createAddingDialog(String word) {
-        //TODO Realize it
+        List<Sounds> soundses = Sounds.listAll(Sounds.class);
+        for(Sounds temp :soundses){
+            if(temp.getName().toLowerCase().equals(word.toLowerCase())){
+                return null;
+            }
+        }
+        Sounds sounds = new Sounds(word, false);
+        sounds.save();
         return null;
     }
 
