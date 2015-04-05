@@ -1,13 +1,69 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.vsgh.pronounceit.activity.AboutActivity">
 
-    <include layout="@layout/header" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
 
-</RelativeLayout>
+        <ImageView
+            android:id="@+id/cat"
+            android:layout_width="wrap_content"
+            android:layout_height="125dp"
+            android:src="@drawable/cat"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/header"
+            layout="@layout/header" />
+
+        <TextView
+            android:id="@+id/tv_app_created"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="25dp"
+            android:text="@string/app_created_for"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_gh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="GeekHub.ck.ua"
+            android:textSize="30sp" />
+    </LinearLayout>
+
+
+    <com.vsgh.pronounceit.customviews.CustomButton
+        android:id="@+id/btn_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="@string/got_it"
+        android:textSize="@dimen/about_btn_text_size"
+        custom:cv_background="@drawable/custom_button_shape" />
+
+    <TextView
+        android:id="@+id/tv_cr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/copyright" />
+
+</LinearLayout>

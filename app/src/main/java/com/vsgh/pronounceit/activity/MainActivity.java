@@ -62,6 +62,18 @@ public class MainActivity extends BaseVsghActivity {
                 startActivityWithoutParams(HelpActivity.class);
             }
         });
+        aq.id(R.id.btn_about).clicked(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityWithoutParams(AboutActivity.class);
+            }
+        });
+        aq.id(R.id.btn_setting).clicked(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityWithoutParams(SettingsActivity.class);
+            }
+        });
     }
 
     protected void showProgress(String message) {

@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.vsgh.pronounceit.activity.SettingsActivity">
+
+    <include layout="@layout/header"/>
+    <LinearLayout
+        android:id="@+id/layout_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.vsgh.pronounceit.customviews.CustomButton
+            android:id="@+id/deletecards_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/button_margin_bottom"
+            android:layout_marginTop="@dimen/button_d_margin_top"
+            android:paddingBottom="@dimen/button_padding_bottom"
+            android:text="@string/del_cards"
+            custom:cv_background="@drawable/custom_button_shape" />
+    </LinearLayout>
+
+</LinearLayout>

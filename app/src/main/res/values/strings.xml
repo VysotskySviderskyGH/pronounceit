@@ -64,8 +64,16 @@ We make your English better
     <string name="done_tasks">You\'ve pronounced: </string>
     <string name="correct_task">Correct:</string>
     <string name="progress">YOUR PROGRESS</string>
-    <string name="firstpart">"I've pronounced more then "</string>
+    <string name="firstpart">"I've pronounced more than "</string>
     <string name="secondpart">" percents. Now it's your turn to pronounce!"</string>
     <string name="success_msg">Success</string>
+    <string name="addcard_gialog">Add this word to cards?</string>
+    <string name="no">NO</string>
+    <string name="add">ADD</string>
+    <string name="copyright">V. Vysotsky and M. Svidersky, 2015</string>
+    <string name="app_created_for">This app was created special for</string>
+    <string name="del_cards">Delete all cards</string>
+    <string name="really">Really?</string>
+    <string name="delete_cards_msg">Do you want to delete all cards?</string>
 
 </resources>

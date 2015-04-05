@@ -71,10 +71,16 @@
             android:name=".activity.LoginButtonsActivity"
             android:label="@string/title_activity_login_buttons"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Transparent"/>
+            android:theme="@style/Theme.Transparent" />
         <activity
             android:name=".activity.AboutActivity"
-            android:label="@string/title_activity_about"/>
+            android:label="@string/title_activity_about"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SettingsActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="101a26e000acf7276b3cf4cd68ad71013b3d61a2" />

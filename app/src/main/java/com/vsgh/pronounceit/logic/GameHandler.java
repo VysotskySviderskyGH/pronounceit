@@ -1,21 +1,25 @@
 package com.vsgh.pronounceit.logic;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.text.Spannable;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.vsgh.pronounceit.Constants;
 import com.vsgh.pronounceit.R;
-import com.vsgh.pronounceit.activity.CardActivity;
 import com.vsgh.pronounceit.activity.base.BaseVsghActivity;
-import com.vsgh.pronounceit.apihelpers.forvo.ForvoApi;
 import com.vsgh.pronounceit.apihelpers.gatodata.GatodataApi;
 import com.vsgh.pronounceit.persistence.Sentence;
 import com.vsgh.pronounceit.persistence.Sounds;
@@ -83,7 +87,7 @@ public class GameHandler {
         currentUser = SharedPrefsHelper.readStringFromSP(context,
                 Constants.CURRENT_USER, "John Smith");
         List<User> users = User.find(User.class, "username = ?", currentUser);
-        int success = users.get(0).getSuccess()+1;
+        int success = users.get(0).getSuccess() + 1;
         users.get(0).setSuccess(success);
         users.get(0).save();
         currentSentence.setListen(true);
@@ -94,7 +98,7 @@ public class GameHandler {
         currentUser = SharedPrefsHelper.readStringFromSP(context,
                 Constants.CURRENT_USER, "John Smith");
         List<User> users = User.find(User.class, "username = ?", currentUser);
-        int unsuccessful = users.get(0).getUnsuccessful()+1;
+        int unsuccessful = users.get(0).getUnsuccessful() + 1;
         users.get(0).setUnsuccessful(unsuccessful);
         users.get(0).save();
     }
@@ -169,16 +173,38 @@ public class GameHandler {
         };
     }
 
-    private Dialog createAddingDialog(String word) {
+    private Dialog createAddingDialog(final String word) {
         List<Sounds> soundses = Sounds.listAll(Sounds.class);
-        for(Sounds temp :soundses){
-            if(temp.getName().toLowerCase().equals(word.toLowerCase())){
+        for (Sounds temp : soundses) {
+            if (temp.getName().toLowerCase().equals(word.toLowerCase())) {
+                Toast.makeText(context, context.getString(R.string.already_exists), Toast.LENGTH_LONG).show();
                 return null;
             }
         }
-        Sounds sounds = new Sounds(word, false);
-        sounds.save();
-        return null;
+        AlertDialog.Builder ad = new AlertDialog.Builder(context);
+        TextView textView = new TextView(context);
+        textView.setGravity(Gravity.CENTER);
+        textView.setPadding(0, 25, 0, 5);
+        textView.setText(word.toUpperCase());
+        textView.setTextColor(Color.BLACK);
+        textView.setTextSize(22);
+        ad.setCancelable(true)
+                .setTitle(context.getString(R.string.addcard_gialog))
+                .setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton(context.getString(R.string.add), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Sounds sounds = new Sounds(word, false);
+                        sounds.save();
+                    }
+                })
+                .setView(textView);
+        return ad.show();
     }
 
     public Sentence getCurrentSentence() {
