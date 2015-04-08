@@ -112,6 +112,7 @@ public class StatisticsActivity extends BaseVsghActivity {
         private String[] colors;
         private Handler handler;
         private Runnable r;
+        private int currentResult;
 
         public StatisticsFragment() {
         }
@@ -275,29 +276,11 @@ public class StatisticsActivity extends BaseVsghActivity {
             String currentUser = SharedPrefsHelper.readStringFromSP(getActivity(),
                     Constants.CURRENT_USER, "John Smith");
             List<User> users = User.find(User.class, "username = ?", currentUser);
-            final int currentResult = Math.round(users.get(0).getSuccess() * 100 / 563);
-            handler = new Handler();
-            r = new Runnable() {
-                int currV = 0;
-                boolean go = true;
-
-                public void run() {
-                    if (currV == currentResult && go) {
-                        go = false;
-                    }
-                    if (go) {
-                        currV++;
-                    }
-                    meter.setValues(currV, currV * 2, currV * 3);
-                    handler.postDelayed(this, 50);
-                }
-            };
+            currentResult = Math.round(users.get(0).getSuccess() * 100 / 563);
             int allTasksCount = Sentence.listAll(Sentence.class).size();
             int successCount = users.get(0).getSuccess();
             int allDoneCoun = successCount + users.get(0).getUnsuccessful();
-            aQuery.id(R.id.tv_all).text(allTasksCount + "");
-            aQuery.id(R.id.tv_correct).text(successCount + "");
-            aQuery.id(R.id.tv_done).text(allDoneCoun + "");
+            updateStatistic(currentResult, allTasksCount, successCount, allDoneCoun);
         }
 
         @Override
@@ -367,12 +350,20 @@ public class StatisticsActivity extends BaseVsghActivity {
                                 currentNetworkId = 0;
                             }
                         });
-               /* String currentUser = SharedPrefsHelper.readStringFromSP(getActivity(),
+                /*
+                String currentUser = SharedPrefsHelper.readStringFromSP(getActivity(),
                         Constants.CURRENT_USER, "John Smith");
                 String newUser = SharedPrefsHelper.readStringFromSP(getActivity(),
                         Constants.USERNAME_PREFS, "John Smith");
+                SharedPrefsHelper.writeStringToSP(getActivity(),
+                        Constants.CURRENT_USER, newUser);
                 List<User> users = User.find(User.class,"username = ?", currentUser);
-                users.get(0).setUsername(newUser);*/
+                users.get(0).setUsername(newUser);
+                users.get(0).save();
+                int allTasksCount = Sentence.listAll(Sentence.class).size();
+                int successCount = users.get(0).getSuccess();
+                int allDoneCoun = successCount + users.get(0).getUnsuccessful();
+                updateStatistic(users.get(0).getSuccess(),allTasksCount,successCount,allDoneCoun);*/
             } else {
                 aQuery.id(R.id.nameLine).backgroundColor(R.color.s_sky);
                 aQuery.id(R.id.connect).backgroundColor(Constants.DEF_COLOR_BTNS);
@@ -392,10 +383,11 @@ public class StatisticsActivity extends BaseVsghActivity {
                                         LOGIN_REQ_CODE);
                             }
                         });
-               /* User user = new User("John Smith",0,0);
-                user.save();
-                SharedPrefsHelper.writeStringToSP(getActivity(),
-                        Constants.CURRENT_USER, user.getUsername());*/
+                User user = User.findById(User.class, (long) 1);
+                int allTasksCount = Sentence.listAll(Sentence.class).size();
+                int successCount = user.getSuccess();
+                int allDoneCoun = successCount + user.getUnsuccessful();
+                updateStatistic(user.getSuccess(), allTasksCount, successCount, allDoneCoun);
             }
             ((StatisticsActivity) getActivity()).hideProgress();
         }
@@ -469,6 +461,48 @@ public class StatisticsActivity extends BaseVsghActivity {
                     });
                 }
             });
+            // update Circlecountet
+            List<User> users = User.listAll(User.class);
+            boolean flag = false;
+            for (User temp : users) {
+                if (temp.getUsername().toLowerCase().equals(socialPerson.name.toLowerCase())) {
+                    flag = true;
+                    int allTasksCount = Sentence.listAll(Sentence.class).size();
+                    int successCount = temp.getSuccess();
+                    int allDoneCoun = successCount + temp.getUnsuccessful();
+                    updateStatistic(users.get(0).getSuccess(), allTasksCount, successCount, allDoneCoun);
+                    break;
+                }
+            }
+            if(!flag){
+                User user = new User(socialPerson.name, 0, 0);
+                user.save();
+                updateStatistic(users.get(0).getSuccess(), 563, 0, 0);
+            }
         }
+
+        public void updateStatistic(final int currentResult, int allTasksCount,
+                                    int successCount, int allDoneCoun) {
+            aQuery.id(R.id.tv_all).text(allTasksCount + "");
+            aQuery.id(R.id.tv_correct).text(successCount + "");
+            aQuery.id(R.id.tv_done).text(allDoneCoun + "");
+            handler = new Handler();
+            r = new Runnable() {
+                int currV = 0;
+                boolean go = true;
+
+                public void run() {
+                    if (currV == currentResult && go) {
+                        go = false;
+                    }
+                    if (go) {
+                        currV++;
+                    }
+                    meter.setValues(currV, currV * 2, currV * 3);
+                    handler.postDelayed(this, 50);
+                }
+            };
+        }
+
     }
 }
