@@ -25,6 +25,13 @@
             android:paddingBottom="@dimen/button_padding_bottom"
             android:text="@string/del_cards"
             custom:cv_background="@drawable/custom_button_shape" />
+        <com.vsgh.pronounceit.customviews.CustomButton
+            android:id="@+id/clearinfo_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/button_padding_bottom"
+            android:text="@string/reset_data"
+            custom:cv_background="@drawable/custom_button_shape" />
     </LinearLayout>
 
 </LinearLayout>

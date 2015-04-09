@@ -45,10 +45,38 @@ public class SettingsActivity extends BaseVsghActivity {
                                 dialog.dismiss();
                             }
                         })
-                        .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                        .setPositiveButton(getString(R.string.yes),new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Cleaner.cleanAllCards(SettingsActivity.this);
+                            }
+                        });
+                ad.show();
+            }
+        });
+        aq.id(R.id.clearinfo_btn).clicked(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView textView = new TextView(SettingsActivity.this);
+                textView.setText(getString(R.string.delinfo_msg));
+                textView.setGravity(Gravity.CENTER);
+                textView.setPadding(0, 25, 0, 5);
+                textView.setTextColor(Color.BLACK);
+                textView.setTextSize(18);
+                AlertDialog.Builder ad = new AlertDialog.Builder(SettingsActivity.this)
+                        .setCancelable(true)
+                        .setTitle(getString(R.string.really))
+                        .setView(textView)
+                        .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setPositiveButton(getString(R.string.yes),new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Cleaner.cleanAllUserInfos();
                             }
                         });
                 ad.show();

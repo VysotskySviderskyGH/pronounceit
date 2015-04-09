@@ -18,4 +18,5 @@ public final class Constants {
     public static final String USERPIC_URL_PREFS = "userpic";
     public static final int DEF_COLOR_BTNS = Color.WHITE;
     public static final int DEF_COLOR_BACKGROUND = Color.rgb(236, 240, 241);
+    public static final String DEFAULT_USER = "John Smith";
 }

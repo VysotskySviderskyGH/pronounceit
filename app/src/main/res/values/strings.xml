@@ -75,5 +75,8 @@ We make your English better
     <string name="del_cards">Delete all cards</string>
     <string name="really">Really?</string>
     <string name="delete_cards_msg">Do you want to delete all cards?</string>
+    <string name="reset_data">Reset user data</string>
+    <string name="delinfo_msg">Do you want to clear all your progress?</string>
+    <string name="yes">Yes</string>
 
 </resources>
