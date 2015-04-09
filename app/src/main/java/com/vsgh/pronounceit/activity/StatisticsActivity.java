@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -31,7 +32,7 @@ import com.github.gorbin.asne.vk.VkSocialNetwork;
 import com.vsgh.pronounceit.Constants;
 import com.vsgh.pronounceit.R;
 import com.vsgh.pronounceit.activity.base.BaseVsghActivity;
-import com.vsgh.pronounceit.customviews.CircularCounter;
+import com.vsgh.pronounceit.customviews.CircleProgress;
 import com.vsgh.pronounceit.persistence.Sentence;
 import com.vsgh.pronounceit.persistence.User;
 import com.vsgh.pronounceit.utils.ConnChecker;
@@ -108,11 +109,10 @@ public class StatisticsActivity extends BaseVsghActivity {
         private AQuery aQuery;
         private SocialNetworkManager mSocialNetworkManager;
         private int currentNetworkId;
-        private CircularCounter meter;
         private String[] colors;
-        private Handler handler;
         private Runnable r;
         private int currentResult;
+        CircleProgress sector;
 
         public StatisticsFragment() {
         }
@@ -261,18 +261,7 @@ public class StatisticsActivity extends BaseVsghActivity {
                     }
                 }
             });
-            Resources resources = getResources();
-            meter = (CircularCounter) getActivity().findViewById(R.id.meter);
-            meter.setFirstWidth(getResources().getDimension(R.dimen.first))
-                    .setFirstColor(resources.getColor(R.color.s_blue))
 
-                    .setSecondWidth(getResources().getDimension(R.dimen.second))
-                    .setSecondColor(resources.getColor(R.color.s_asphalt))
-
-                    .setThirdWidth(getResources().getDimension(R.dimen.third))
-                    .setThirdColor(resources.getColor(R.color.s_green))
-
-                    .setBackgroundColor(resources.getColor(R.color.s_white));
             String currentUser = SharedPrefsHelper.readStringFromSP(getActivity(),
                     Constants.CURRENT_USER, "John Smith");
             List<User> users = User.find(User.class, "username = ?", currentUser);
@@ -280,7 +269,33 @@ public class StatisticsActivity extends BaseVsghActivity {
             int allTasksCount = Sentence.listAll(Sentence.class).size();
             int successCount = users.get(0).getSuccess();
             int allDoneCoun = successCount + users.get(0).getUnsuccessful();
-            updateStatistic(currentResult, allTasksCount, successCount, allDoneCoun);
+            aQuery.id(R.id.tv_all).text(allTasksCount + "");
+            aQuery.id(R.id.tv_correct).text(successCount + "");
+            aQuery.id(R.id.tv_done).text(allDoneCoun + "");
+            sector = (CircleProgress) getActivity().findViewById(R.id.sector);
+            sector.setType(CircleProgress.SECTOR);
+            new AsyncTask<Integer, Integer, Integer>() {
+                @Override
+                protected Integer doInBackground(Integer... params) {
+                    for(int i=0;i<=params[0];i++){
+                        publishProgress(i);
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    return null;
+                }
+
+                @Override
+                protected void onProgressUpdate(Integer... values) {
+                    super.onProgressUpdate(values);
+                    sector.setmSubCurProgress(values[0]);
+                }
+
+
+            }.execute(currentResult);
         }
 
         @Override
@@ -350,20 +365,6 @@ public class StatisticsActivity extends BaseVsghActivity {
                                 currentNetworkId = 0;
                             }
                         });
-                /*
-                String currentUser = SharedPrefsHelper.readStringFromSP(getActivity(),
-                        Constants.CURRENT_USER, "John Smith");
-                String newUser = SharedPrefsHelper.readStringFromSP(getActivity(),
-                        Constants.USERNAME_PREFS, "John Smith");
-                SharedPrefsHelper.writeStringToSP(getActivity(),
-                        Constants.CURRENT_USER, newUser);
-                List<User> users = User.find(User.class,"username = ?", currentUser);
-                users.get(0).setUsername(newUser);
-                users.get(0).save();
-                int allTasksCount = Sentence.listAll(Sentence.class).size();
-                int successCount = users.get(0).getSuccess();
-                int allDoneCoun = successCount + users.get(0).getUnsuccessful();
-                updateStatistic(users.get(0).getSuccess(),allTasksCount,successCount,allDoneCoun);*/
             } else {
                 aQuery.id(R.id.nameLine).backgroundColor(R.color.s_sky);
                 aQuery.id(R.id.connect).backgroundColor(Constants.DEF_COLOR_BTNS);
@@ -387,7 +388,35 @@ public class StatisticsActivity extends BaseVsghActivity {
                 int allTasksCount = Sentence.listAll(Sentence.class).size();
                 int successCount = user.getSuccess();
                 int allDoneCoun = successCount + user.getUnsuccessful();
-                updateStatistic(user.getSuccess(), allTasksCount, successCount, allDoneCoun);
+                SharedPrefsHelper.writeStringToSP(getActivity(),
+                        Constants.CURRENT_USER,"John Smith");
+                aQuery.id(R.id.tv_all).text(allTasksCount + "");
+                aQuery.id(R.id.tv_correct).text(successCount + "");
+                aQuery.id(R.id.tv_done).text(allDoneCoun + "");
+                sector = (CircleProgress) getActivity().findViewById(R.id.sector);
+                sector.setType(CircleProgress.SECTOR);
+                new AsyncTask<Integer, Integer, Integer>() {
+                    @Override
+                    protected Integer doInBackground(Integer... params) {
+                        for(int i=0;i<=params[0];i++){
+                            publishProgress(i);
+                            try {
+                                Thread.sleep(500);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    protected void onProgressUpdate(Integer... values) {
+                        super.onProgressUpdate(values);
+                        sector.setmSubCurProgress(values[0]);
+                    }
+
+
+                }.execute(Math.round(user.getSuccess() * 100 / 563));
             }
             ((StatisticsActivity) getActivity()).hideProgress();
         }
@@ -406,13 +435,11 @@ public class StatisticsActivity extends BaseVsghActivity {
         @Override
         public void onResume() {
             super.onResume();
-            handler.postDelayed(r, 500);
         }
 
         @Override
         public void onPause() {
             super.onPause();
-            handler.removeCallbacks(r);
         }
 
         @Override
@@ -467,42 +494,74 @@ public class StatisticsActivity extends BaseVsghActivity {
             for (User temp : users) {
                 if (temp.getUsername().toLowerCase().equals(socialPerson.name.toLowerCase())) {
                     flag = true;
+                    SharedPrefsHelper.writeStringToSP(getActivity(),
+                            Constants.CURRENT_USER, socialPerson.name);
                     int allTasksCount = Sentence.listAll(Sentence.class).size();
                     int successCount = temp.getSuccess();
                     int allDoneCoun = successCount + temp.getUnsuccessful();
-                    updateStatistic(users.get(0).getSuccess(), allTasksCount, successCount, allDoneCoun);
+                    aQuery.id(R.id.tv_all).text(allTasksCount + "");
+                    aQuery.id(R.id.tv_correct).text(successCount + "");
+                    aQuery.id(R.id.tv_done).text(allDoneCoun + "");
+                    sector = (CircleProgress) getActivity().findViewById(R.id.sector);
+                    sector.setType(CircleProgress.SECTOR);
+                    new AsyncTask<Integer, Integer, Integer>() {
+                        @Override
+                        protected Integer doInBackground(Integer... params) {
+                            for(int i=0;i<=params[0];i++){
+                                publishProgress(i);
+                                try {
+                                    Thread.sleep(500);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            return null;
+                        }
+
+                        @Override
+                        protected void onProgressUpdate(Integer... values) {
+                            super.onProgressUpdate(values);
+                            sector.setmSubCurProgress(values[0]);
+                        }
+
+
+                    }.execute(Math.round(temp.getSuccess() * 100 / 563));
                     break;
                 }
             }
             if(!flag){
                 User user = new User(socialPerson.name, 0, 0);
                 user.save();
-                updateStatistic(users.get(0).getSuccess(), 563, 0, 0);
+                SharedPrefsHelper.writeStringToSP(getActivity(),
+                        Constants.CURRENT_USER, user.getUsername());
+                aQuery.id(R.id.tv_all).text(563 + "");
+                aQuery.id(R.id.tv_correct).text(0 + "");
+                aQuery.id(R.id.tv_done).text(0 + "");
+                sector = (CircleProgress) getActivity().findViewById(R.id.sector);
+                sector.setType(CircleProgress.SECTOR);
+                new AsyncTask<Integer, Integer, Integer>() {
+                    @Override
+                    protected Integer doInBackground(Integer... params) {
+                        for(int i=0;i<=params[0];i++){
+                            publishProgress(i);
+                            try {
+                                Thread.sleep(500);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    protected void onProgressUpdate(Integer... values) {
+                        super.onProgressUpdate(values);
+                        sector.setmSubCurProgress(values[0]);
+                    }
+
+
+                }.execute(0);
             }
         }
-
-        public void updateStatistic(final int currentResult, int allTasksCount,
-                                    int successCount, int allDoneCoun) {
-            aQuery.id(R.id.tv_all).text(allTasksCount + "");
-            aQuery.id(R.id.tv_correct).text(successCount + "");
-            aQuery.id(R.id.tv_done).text(allDoneCoun + "");
-            handler = new Handler();
-            r = new Runnable() {
-                int currV = 0;
-                boolean go = true;
-
-                public void run() {
-                    if (currV == currentResult && go) {
-                        go = false;
-                    }
-                    if (go) {
-                        currV++;
-                    }
-                    meter.setValues(currV, currV * 2, currV * 3);
-                    handler.postDelayed(this, 50);
-                }
-            };
-        }
-
     }
 }

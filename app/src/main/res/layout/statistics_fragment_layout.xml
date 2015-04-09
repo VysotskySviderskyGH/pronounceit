@@ -74,17 +74,12 @@
                         android:text="@string/progress"
                         android:textSize="20sp" />
 
-                    <com.vsgh.pronounceit.customviews.CircularCounter xmlns:meter="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/meter"
+                    <com.vsgh.pronounceit.customviews.CircleProgress
+                        android:id="@+id/sector"
                         android:layout_width="220dp"
                         android:layout_height="220dp"
                         android:layout_margin="5dp"
-                        android:padding="6dp"
-                        meter:metricSize="20sp"
-                        meter:metricText="%"
-                        meter:range="100"
-                        meter:textColor="@color/s_blue"
-                        meter:textSize="90sp" />
+                        android:padding="6dp"/>
 
                     <TableLayout
                         android:layout_width="wrap_content"

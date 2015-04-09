@@ -25,6 +25,8 @@ public class PronounceItApp extends SugarApp {
     private static final String MYRIAD_PRO_FONT = "myriadpro_regular.otf";
     private SharedPreferences settings;
 
+    public static final String MUST_BLOCK_BTN = "must_block_btn";
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -44,6 +46,7 @@ public class PronounceItApp extends SugarApp {
                     Constants.FIRST_START, false);
             Intent i = new Intent(this, HelpActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            i.putExtra(MUST_BLOCK_BTN,true);
             startActivity(i);
         }
     }
