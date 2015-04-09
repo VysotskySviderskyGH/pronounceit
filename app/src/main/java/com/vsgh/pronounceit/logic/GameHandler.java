@@ -24,7 +24,7 @@ import com.vsgh.pronounceit.apihelpers.gatodata.GatodataApi;
 import com.vsgh.pronounceit.persistence.Sentence;
 import com.vsgh.pronounceit.persistence.Sounds;
 import com.vsgh.pronounceit.persistence.User;
-import com.vsgh.pronounceit.singletones.SentencesContainer;
+import com.vsgh.pronounceit.persistence.UserSentence;
 import com.vsgh.pronounceit.utils.SharedPrefsHelper;
 
 import java.text.BreakIterator;
@@ -45,6 +45,7 @@ public class GameHandler {
     private Context context;
     private Sentence currentSentence;
     private String currentUser;
+    private static List<Sentence> sentences;
 
     public GameHandler(AQuery aQuery, Context context) {
         this.aQuery = aQuery;
@@ -57,16 +58,42 @@ public class GameHandler {
     }
 
     private void init() {
-        if (SentencesContainer.sentenceList == null) {
-            SentencesContainer.sentenceList = Sentence.find(Sentence.class, "listen = ?", "0");
+        if (sentences == null) {
+            currentUser = SharedPrefsHelper.readStringFromSP(context,
+                    Constants.CURRENT_USER, "John Smith");
+            List<UserSentence> userSentences = UserSentence.find(UserSentence.class,
+                    "username = ?", currentUser);
+             sentences = Sentence.listAll(Sentence.class);
+            for(int i=0; i< sentences.size(); i++){
+                for (int j=0; j < userSentences.size(); j++){
+                    if(sentences.get(i).getSentence()
+                            .equals(userSentences.get(j))){
+                        sentences.remove(i);
+                        break;
+                    }
+                }
+            }
         }
     }
 
     private void setAnotherSentence() {
         //TODO Handle situation with repeating words and with interaction with DB
-        SentencesContainer.sentenceList = Sentence.find(Sentence.class, "listen = ?", "0");
-        currentSentence = SentencesContainer
-                .sentenceList.get(random.nextInt(SentencesContainer.sentenceList.size() - 1));
+        currentUser = SharedPrefsHelper.readStringFromSP(context,
+                Constants.CURRENT_USER, "John Smith");
+        List<UserSentence> userSentences = UserSentence.find(UserSentence.class,
+                "username = ?", currentUser);
+        sentences = Sentence.listAll(Sentence.class);
+        for(int i=0; i< sentences.size(); i++){
+            for (int j=0; j < userSentences.size(); j++){
+                if(sentences.get(i).getSentence()
+                        .equals(userSentences.get(j))){
+                    sentences.remove(i);
+                    break;
+                }
+            }
+        }
+        currentSentence = sentences
+                .get(random.nextInt(sentences.size() - 1));
     }
 
     private String cleanString(String string) {
@@ -90,8 +117,8 @@ public class GameHandler {
         int success = users.get(0).getSuccess() + 1;
         users.get(0).setSuccess(success);
         users.get(0).save();
-        currentSentence.setListen(true);
-        currentSentence.save();
+        UserSentence userSentence = new UserSentence(currentUser, currentSentence.getSentence());
+        userSentence.save();
     }
 
     private void handleUnsuccess() {

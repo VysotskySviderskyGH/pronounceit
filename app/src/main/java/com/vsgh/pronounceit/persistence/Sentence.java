@@ -12,17 +12,15 @@ public class Sentence extends SugarRecord<Sentence> {
     private String sentence;
     private String link;
     private int lessonId;
-    private boolean listen;
 
     public Sentence() {
     }
 
-    public Sentence(Long id, String sentence, String link, int lessonId, Boolean listen) {
+    public Sentence(Long id, String sentence, String link, int lessonId) {
         this.id = id;
         this.sentence = sentence;
         this.link = link;
         this.lessonId = lessonId;
-        this.listen = listen;
     }
 
     public Long getId() {
@@ -56,13 +54,4 @@ public class Sentence extends SugarRecord<Sentence> {
     public void setLessonId(int lessonId) {
         this.lessonId = lessonId;
     }
-
-    public boolean getListen() {
-        return listen;
-    }
-
-    public void setListen(boolean listen) {
-        this.listen = listen;
-    }
-
 }

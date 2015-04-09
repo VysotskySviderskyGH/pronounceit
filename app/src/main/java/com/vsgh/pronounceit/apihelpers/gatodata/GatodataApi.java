@@ -68,7 +68,7 @@ public class GatodataApi {
                     String text = object.optString(TEXT_PARAM);
                     String link = object.optString(NAME_PARAM);
                     int lessonId = Integer.parseInt(object.optString(LESSON_ID_PARAM));
-                    Sentence sentence = new Sentence(id, text, link, lessonId, false);
+                    Sentence sentence = new Sentence(id, text, link, lessonId);
                     sentence.save();
                 }
             }
