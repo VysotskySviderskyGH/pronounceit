@@ -168,10 +168,13 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_margin="10dp"
-            android:background="@color/s_asphalt"
-            android:scaleType="centerCrop"
+            app:riv_border_width="2dp"
+            app:riv_mutate_background="true"
+            android:scaleType="center"
             android:src="@drawable/ic_smith"
-            app:riv_border_color="@color/s_asphalt" />
+            app:riv_border_color="@color/s_asphalt"
+            app:riv_oval="true"
+            app:riv_corner_radius="30dip"/>
     </RelativeLayout>
 
 

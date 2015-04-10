@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.graphics.Palette;
@@ -109,10 +108,8 @@ public class StatisticsActivity extends BaseVsghActivity {
         private AQuery aQuery;
         private SocialNetworkManager mSocialNetworkManager;
         private int currentNetworkId;
-        private String[] colors;
-        private Runnable r;
         private int currentResult;
-        CircleProgress sector;
+        private CircleProgress sector;
 
         public StatisticsFragment() {
         }
@@ -175,15 +172,17 @@ public class StatisticsActivity extends BaseVsghActivity {
                 File userPic = aQuery.getCachedFile(userpicUrl);
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-                Bitmap userBmp = BitmapFactory.decodeFile(userPic.getAbsolutePath(), options);
-                aQuery.id(R.id.userpic).image(userBmp);
-                Palette.PaletteAsyncListener listener = new Palette.PaletteAsyncListener() {
-                    public void onGenerated(Palette palette) {
-                        aQuery.id(R.id.content)
-                                .backgroundColor(palette.getLightMutedColor(Constants.DEF_COLOR_BACKGROUND));
-                    }
-                };
-                Palette.generateAsync(userBmp, NUM_OF_COLORS_PALETTE, listener);
+                if (userPic.exists()) {
+                    Bitmap userBmp = BitmapFactory.decodeFile(userPic.getAbsolutePath(), options);
+                    aQuery.id(R.id.userpic).image(userBmp);
+                    Palette.PaletteAsyncListener listener = new Palette.PaletteAsyncListener() {
+                        public void onGenerated(Palette palette) {
+                            aQuery.id(R.id.content)
+                                    .backgroundColor(palette.getLightMutedColor(Constants.DEF_COLOR_BACKGROUND));
+                        }
+                    };
+                    Palette.generateAsync(userBmp, NUM_OF_COLORS_PALETTE, listener);
+                }
             }
             aQuery.id(R.id.content).backgroundColor(colorPalette);
             aQuery.id(R.id.share).enabled(true);
@@ -277,7 +276,7 @@ public class StatisticsActivity extends BaseVsghActivity {
             new AsyncTask<Integer, Integer, Integer>() {
                 @Override
                 protected Integer doInBackground(Integer... params) {
-                    for(int i=0;i<=params[0];i++){
+                    for (int i = 0; i <= params[0]; i++) {
                         publishProgress(i);
                         try {
                             Thread.sleep(500);
@@ -293,8 +292,6 @@ public class StatisticsActivity extends BaseVsghActivity {
                     super.onProgressUpdate(values);
                     sector.setmSubCurProgress(values[0]);
                 }
-
-
             }.execute(currentResult);
         }
 
@@ -389,7 +386,7 @@ public class StatisticsActivity extends BaseVsghActivity {
                 int successCount = user.getSuccess();
                 int allDoneCoun = successCount + user.getUnsuccessful();
                 SharedPrefsHelper.writeStringToSP(getActivity(),
-                        Constants.CURRENT_USER,"John Smith");
+                        Constants.CURRENT_USER, "John Smith");
                 aQuery.id(R.id.tv_all).text(allTasksCount + "");
                 aQuery.id(R.id.tv_correct).text(successCount + "");
                 aQuery.id(R.id.tv_done).text(allDoneCoun + "");
@@ -398,7 +395,7 @@ public class StatisticsActivity extends BaseVsghActivity {
                 new AsyncTask<Integer, Integer, Integer>() {
                     @Override
                     protected Integer doInBackground(Integer... params) {
-                        for(int i=0;i<=params[0];i++){
+                        for (int i = 0; i <= params[0]; i++) {
                             publishProgress(i);
                             try {
                                 Thread.sleep(500);
@@ -464,12 +461,19 @@ public class StatisticsActivity extends BaseVsghActivity {
                     defColor = resources.getColor(R.color.s_gp_color);
                     break;
             }
-            SharedPrefsHelper.writeStringToSP(getActivity(), Constants.USERNAME_PREFS, socialPerson.name);
+            String name = socialPerson.name;
+            if (socialPerson.name.length() > 20) {
+                String first = socialPerson.name.substring(0, 1).concat(".");
+                String second = socialPerson.name.substring(socialPerson.name.indexOf(" "),
+                        socialPerson.name.length());
+                name = first + " " + second;
+            }
+            SharedPrefsHelper.writeStringToSP(getActivity(), Constants.USERNAME_PREFS, name);
             SharedPrefsHelper.writeIntToSP(getActivity(), Constants.COLOR_PREFS, defColor);
             SharedPrefsHelper.writeIntToSP(getActivity(), Constants.SOCID_PREFS, networkId);
             SharedPrefsHelper.writeBooleanToSP(getActivity(), Constants.ONLINE_STATUS_PREFS, true);
             SharedPrefsHelper.writeStringToSP(getActivity(), Constants.USERPIC_URL_PREFS, socialPerson.avatarURL);
-            aQuery.id(R.id.name).text(socialPerson.name);
+            aQuery.id(R.id.name).text(name);
             aQuery.id(R.id.nameLine).backgroundColor(defColor);
             aQuery.id(R.id.connect).backgroundColor(defColor);
             aQuery.id(R.id.share).backgroundColor(defColor);
@@ -507,7 +511,7 @@ public class StatisticsActivity extends BaseVsghActivity {
                     new AsyncTask<Integer, Integer, Integer>() {
                         @Override
                         protected Integer doInBackground(Integer... params) {
-                            for(int i=0;i<=params[0];i++){
+                            for (int i = 0; i <= params[0]; i++) {
                                 publishProgress(i);
                                 try {
                                     Thread.sleep(500);
@@ -529,7 +533,7 @@ public class StatisticsActivity extends BaseVsghActivity {
                     break;
                 }
             }
-            if(!flag){
+            if (!flag) {
                 User user = new User(socialPerson.name, 0, 0);
                 user.save();
                 SharedPrefsHelper.writeStringToSP(getActivity(),
@@ -542,7 +546,7 @@ public class StatisticsActivity extends BaseVsghActivity {
                 new AsyncTask<Integer, Integer, Integer>() {
                     @Override
                     protected Integer doInBackground(Integer... params) {
-                        for(int i=0;i<=params[0];i++){
+                        for (int i = 0; i <= params[0]; i++) {
                             publishProgress(i);
                             try {
                                 Thread.sleep(500);
