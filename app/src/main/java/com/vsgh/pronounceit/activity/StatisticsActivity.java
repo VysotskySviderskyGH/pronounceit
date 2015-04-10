@@ -263,6 +263,7 @@ public class StatisticsActivity extends BaseVsghActivity {
 
             String currentUser = SharedPrefsHelper.readStringFromSP(getActivity(),
                     Constants.CURRENT_USER, "John Smith");
+            if(currentUser.equals("John Smith")){
             List<User> users = User.find(User.class, "username = ?", currentUser);
             currentResult = Math.round(users.get(0).getSuccess() * 100 / 563);
             int allTasksCount = Sentence.listAll(Sentence.class).size();
@@ -293,6 +294,7 @@ public class StatisticsActivity extends BaseVsghActivity {
                     sector.setmSubCurProgress(values[0]);
                 }
             }.execute(currentResult);
+            }
         }
 
         @Override
