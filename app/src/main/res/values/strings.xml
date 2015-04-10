@@ -78,5 +78,6 @@ We make your English better
     <string name="reset_data">Reset user data</string>
     <string name="delinfo_msg">Do you want to clear all your progress?</string>
     <string name="yes">Yes</string>
+    <string name="stop_msg">stop</string>
 
 </resources>

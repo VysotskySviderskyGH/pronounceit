@@ -45,6 +45,15 @@
         android:orientation="horizontal">
 
         <com.vsgh.pronounceit.customviews.CustomButton
+            android:id="@+id/btn_stop"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/gamebtn_height"
+            android:layout_margin="10dp"
+            android:text="@string/stop_msg"
+            android:textSize="@dimen/gamebtn_text_size"
+            custom:cv_background="@drawable/custom_button_shape" />
+
+        <com.vsgh.pronounceit.customviews.CustomButton
             android:id="@+id/btn_skip"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/gamebtn_height"

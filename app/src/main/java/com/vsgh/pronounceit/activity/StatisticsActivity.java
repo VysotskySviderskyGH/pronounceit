@@ -28,6 +28,7 @@ import com.github.gorbin.asne.core.persons.SocialPerson;
 import com.github.gorbin.asne.facebook.FacebookSocialNetwork;
 import com.github.gorbin.asne.googleplus.GooglePlusSocialNetwork;
 import com.github.gorbin.asne.vk.VkSocialNetwork;
+import com.makeramen.RoundedImageView;
 import com.vsgh.pronounceit.Constants;
 import com.vsgh.pronounceit.R;
 import com.vsgh.pronounceit.activity.base.BaseVsghActivity;
@@ -262,38 +263,38 @@ public class StatisticsActivity extends BaseVsghActivity {
             });
 
             String currentUser = SharedPrefsHelper.readStringFromSP(getActivity(),
-                    Constants.CURRENT_USER, "John Smith");
-            if(currentUser.equals("John Smith")){
-            List<User> users = User.find(User.class, "username = ?", currentUser);
-            currentResult = Math.round(users.get(0).getSuccess() * 100 / 563);
-            int allTasksCount = Sentence.listAll(Sentence.class).size();
-            int successCount = users.get(0).getSuccess();
-            int allDoneCoun = successCount + users.get(0).getUnsuccessful();
-            aQuery.id(R.id.tv_all).text(allTasksCount + "");
-            aQuery.id(R.id.tv_correct).text(successCount + "");
-            aQuery.id(R.id.tv_done).text(allDoneCoun + "");
-            sector = (CircleProgress) getActivity().findViewById(R.id.sector);
-            sector.setType(CircleProgress.SECTOR);
-            new AsyncTask<Integer, Integer, Integer>() {
-                @Override
-                protected Integer doInBackground(Integer... params) {
-                    for (int i = 0; i <= params[0]; i++) {
-                        publishProgress(i);
-                        try {
-                            Thread.sleep(500);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                    Constants.CURRENT_USER, Constants.DEFAULT_USER);
+            if (currentUser.equals("John Smith")) {
+                List<User> users = User.find(User.class, "username = ?", currentUser);
+                currentResult = Math.round(users.get(0).getSuccess() * 100 / 563);
+                int allTasksCount = Sentence.listAll(Sentence.class).size();
+                int successCount = users.get(0).getSuccess();
+                int allDoneCoun = successCount + users.get(0).getUnsuccessful();
+                aQuery.id(R.id.tv_all).text(allTasksCount + "");
+                aQuery.id(R.id.tv_correct).text(successCount + "");
+                aQuery.id(R.id.tv_done).text(allDoneCoun + "");
+                sector = (CircleProgress) getActivity().findViewById(R.id.sector);
+                sector.setType(CircleProgress.SECTOR);
+                new AsyncTask<Integer, Integer, Integer>() {
+                    @Override
+                    protected Integer doInBackground(Integer... params) {
+                        for (int i = 0; i <= params[0]; i++) {
+                            publishProgress(i);
+                            try {
+                                Thread.sleep(500);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }
+                        return null;
                     }
-                    return null;
-                }
 
-                @Override
-                protected void onProgressUpdate(Integer... values) {
-                    super.onProgressUpdate(values);
-                    sector.setmSubCurProgress(values[0]);
-                }
-            }.execute(currentResult);
+                    @Override
+                    protected void onProgressUpdate(Integer... values) {
+                        super.onProgressUpdate(values);
+                        sector.setmSubCurProgress(values[0]);
+                    }
+                }.execute(currentResult);
             }
         }
 
@@ -388,7 +389,7 @@ public class StatisticsActivity extends BaseVsghActivity {
                 int successCount = user.getSuccess();
                 int allDoneCoun = successCount + user.getUnsuccessful();
                 SharedPrefsHelper.writeStringToSP(getActivity(),
-                        Constants.CURRENT_USER, "John Smith");
+                        Constants.CURRENT_USER, Constants.DEFAULT_USER);
                 aQuery.id(R.id.tv_all).text(allTasksCount + "");
                 aQuery.id(R.id.tv_correct).text(successCount + "");
                 aQuery.id(R.id.tv_done).text(allDoneCoun + "");
@@ -482,14 +483,14 @@ public class StatisticsActivity extends BaseVsghActivity {
             aQuery.id(R.id.userpic).image(socialPerson.avatarURL, true, true, 0, 0, new BitmapAjaxCallback() {
                 @Override
                 public void callback(String url, ImageView iv, final Bitmap bm, AjaxStatus status) {
+                    ((StatisticsActivity) getActivity()).hideProgress();
                     Palette.generateAsync(bm, new Palette.PaletteAsyncListener() {
                         public void onGenerated(Palette palette) {
                             aQuery.id(R.id.userpic).image(bm);
-                            int colorPalette = palette.getLightMutedColor(Constants.DEF_COLOR_BACKGROUND);
-                            aQuery.id(R.id.content)
-                                    .backgroundColor(colorPalette);
+                            int colorPalette = palette.getLightVibrantColor(Constants.DEF_COLOR_BACKGROUND);
+                            ((RoundedImageView)aQuery.id(R.id.userpic).getImageView())
+                                    .setBorderColor(colorPalette);
                             SharedPrefsHelper.writeIntToSP(getActivity(), Constants.PALETTE_COLOR_PREFS, colorPalette);
-                            ((StatisticsActivity) getActivity()).hideProgress();
                         }
                     });
                 }
